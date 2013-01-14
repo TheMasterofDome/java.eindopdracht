@@ -2,7 +2,7 @@ package bosbrand.model;
 
 public class Boswachter implements IBoswachter{
 
-	
+	//Hoi
 		/**
 		 * de rij waarop deze boswachter staat
 		 * @return de rij waarop deze boswachter staat
