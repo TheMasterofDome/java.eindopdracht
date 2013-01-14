@@ -3,40 +3,36 @@ public class Grond implements IBosbrandModel {
 	// het grid van kavels
 	IKavel[][] kavels;
 	
-	public Grond(String[] wereld) {
+	public void initialiseer(String[] wereld) {
 		// het aantal rijen is de lengte van de array
-		int rijen = wereld.length;
-		// als er geen rijen zijn zijn er ook geen kolommen, anders zijn
-		// er net zoveel kolommen als er characters in de eerste string
-		// zitten
-		int kolommen = (rijen == 0) ? 0 : wereld[0].length();
-		
-		// we initialiseren het grid op de goede grootte
-		kavels = new IKavel[rijen][kolommen];
-		
-		// we lopen door alle rijen heen
-		for (int rij = 0; rij < rijen; rij++) {
-			// als de lengte van de rij niet overeen komt met de lengte
-			// die we verwachten is de input geen rechthoek, printen we
-			// dat dat een probleem is, en stoppen we met het programma.
-			if (wereld[rij].length() != kolommen) {
-				System.out.println("de lengte van de inputstrings komt niet overeen");
-				System.exit(0);
-			}
-			// anders lopen we door alle kolommen heen
-			for (int kolom = 0; kolom < kolommen; kolom++) {
-				// we zetten op elke positie in het grid het type kavel
-				// dat door het character op die plek in de string
-				// gecodeerd wordt. Daarvoor gebruiken we de
-				// haalKavelUitChar-methode.
-				kavels[rij][kolom] = haalKavelUitChar(wereld[rij].charAt(kolom));
+			int rijen = wereld.length;
+			// als er geen rijen zijn zijn er ook geen kolommen, anders zijn
+			// er net zoveel kolommen als er characters in de eerste string
+			// zitten
+			int kolommen = (rijen == 0) ? 0 : wereld[0].length();
+			
+			// we initialiseren het grid op de goede grootte
+			kavels = new IKavel[rijen][kolommen];
+			
+			// we lopen door alle rijen heen
+			for (int rij = 0; rij < rijen; rij++) {
+				// als de lengte van de rij niet overeen komt met de lengte
+				// die we verwachten is de input geen rechthoek, printen we
+				// dat dat een probleem is, en stoppen we met het programma.
+				if (wereld[rij].length() != kolommen) {
+					System.out.println("de lengte van de inputstrings komt niet overeen");
+					System.exit(0);
+				}
+				// anders lopen we door alle kolommen heen
+				for (int kolom = 0; kolom < kolommen; kolom++) {
+					// we zetten op elke positie in het grid het type kavel
+					// dat door het character op die plek in de string
+					// gecodeerd wordt. Daarvoor gebruiken we de
+					// haalKavelUitChar-methode.
+					kavels[rij][kolom] = haalKavelUitChar(wereld[rij].charAt(kolom));
+				}
 			}
 		}
-	}
-	
-	public void initialiseer(String[] wereld) {
-		
-	}
 	
 	public IBoswachter[] getBoswachters() {
 		return null;
