@@ -1,47 +1,109 @@
 package bosbrand.model;
+
+import java.util.*;
+
 public class Grond implements IBosbrandModel {
 	// het grid van kavels
 	IKavel[][] kavels;
+	IKavel[][] kavels_original;
+	IBoswachter[][] posBoswachters;
 	
 	/**
 	 * Methode die de grond opstelt uit de input.
 	 * @param String[] wereld: De input van de commandline
 	 */
-	public void initialiseer(String[] wereld) {			
-			// we initialiseren het grid op de goede grootte: aantal rijen en aantal kolommen van wereld.
-			kavels = new IKavel[wereld.length][wereld[0].length()];
-			
-			// we lopen door alle rijen en kolommen heen
-			for (int rij = 0; rij < wereld.length; rij++) {
-				for (int kolom = 0; kolom < wereld[rij].length(); kolom++) {
-					// we zetten op elke positie in het grid het type kavel
-					// dat door het character op die plek in de string
-					// gecodeerd wordt. Daarvoor gebruiken we de
-					// haalKavelUitChar-methode.
-					kavels[rij][kolom] = haalKavelUitChar(wereld[rij].charAt(kolom));
+	public void initialiseer(String[] wereld) {	
+		int lengte = wereld.length;
+		int breedte = wereld[0].length();
+		// we initialiseren het grid op de goede grootte: aantal rijen en aantal kolommen van wereld.
+		kavels = new IKavel[lengte][breedte];
+		kavels_original = kavels;
+		
+		//We initialiseren het boswachter grid emt dezelfde grootte als kavels.
+		posBoswachters = new IBoswachter[lengte][breedte];
+		
+		// we lopen door alle rijen en kolommen heen
+		for (int rij = 0; rij < kavels.length; rij++) {
+			for (int kolom = 0; kolom < kavels[rij].length; kolom++) {
+				// we zetten op elke positie in het grid het type kavel
+				// dat door het character op die plek in de string
+				// gecodeerd wordt. Daarvoor gebruiken we de
+				// haalKavelUitChar-methode.
+				kavels[rij][kolom] = haalKavelUitChar(wereld[rij].charAt(kolom));
+			}
+		}
+	}
+	
+	/**
+	 * Methode om alle boswachters in de wereld in een array van Boswachters te stoppen.
+	 */
+	public IBoswachter[] getBoswachters() {
+		//ArrayList gebruiken voor de variabele grootte.
+		ArrayList<IBoswachter> al = new ArrayList<IBoswachter>();
+		for (int r=0;r<posBoswachters.length;r++) {
+			for (int c=0;c<posBoswachters[r].length;c++) {
+				if (posBoswachters[r][c] instanceof IBoswachter) {
+					al.add(posBoswachters[r][c]);
 				}
 			}
 		}
-	
-	public IBoswachter[] getBoswachters() {
-		return null;
+		//ArrayList omzetten in een array van het type IBoswachter.
+		IBoswachter[] bw = (IBoswachter[]) al.toArray();
+		
+		return bw;
 	}
 	
+	//Spreekt voor zich.
 	public IKavel[][] getKavels() {
-		return null;
+		return kavels;
 	}
 	
+	/**
+	 * Methode die het vuur op een kavel toggled.
+	 * Als de boom in brand staat zet hij de boom in brand en andersom.
+	 * Als de kavel leeg is gebeurt er niets.
+	 */
 	public void toggleVuur(int rij, int kolom) {
-		
+		if (kavels[rij][kolom].voortBranden()) {
+			if (kavels[rij][kolom] instanceof AppelBoom) {
+				kavels[rij][kolom] = new AppelBoom(Boom.NIET_IN_BRAND);
+			}
+			else if (kavels[rij][kolom] instanceof BraamStruik) {
+				kavels[rij][kolom] = new BraamStruik(Boom.NIET_IN_BRAND);
+			}
+			else if (kavels[rij][kolom] instanceof Cypres) {
+				kavels[rij][kolom] = new Cypres(Boom.NIET_IN_BRAND);
+			}
+		}
+		else {
+			if (kavels[rij][kolom] instanceof AppelBoom) {
+				kavels[rij][kolom] = new AppelBoom(Boom.IN_BRAND);
+			}
+			else if (kavels[rij][kolom] instanceof BraamStruik) {
+				kavels[rij][kolom] = new BraamStruik(Boom.IN_BRAND);
+			}
+			else if (kavels[rij][kolom] instanceof Cypres) {
+				kavels[rij][kolom] = new Cypres(Boom.IN_BRAND);
+			}
+		}
 	}
 	
+	/**
+	 * Methode om de boswachter op een positie te plaatsen of weg te halen.
+	 */
 	public void toggleBoswachter(int rij, int kolom) {
-		
+		if (posBoswachters[rij][kolom] instanceof Boswachter) {
+			posBoswachters[rij][kolom] = null;
+		}
+		else posBoswachters[rij][kolom] = new Boswachter();
 	}
 	
-	
+	/**
+	 * Methode die de wereld naar de originele toestand terugzet.
+	 */
 	public void reset() {
-		
+		kavels = kavels_original;
+		posBoswachters = new Boswachter[0][0];
 	}
 
 	// haalKavelUitChar maakt een kavel van een char
