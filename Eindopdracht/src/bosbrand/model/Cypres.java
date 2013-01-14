@@ -1,5 +1,4 @@
 package bosbrand.model;
-//Hoi hoi
 // Cypres is een compacte klasse die de abstracte boom slechts uitbreidt
 // met een kopiemethode en een constructor.
 
