@@ -1,4 +1,5 @@
 package bosbrand.model;
+//Ook geen blaat
 public class Grond implements IBosbrandModel {
 	// het grid van kavels
 	IKavel[][] kavels;

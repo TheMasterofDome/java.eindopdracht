@@ -1,5 +1,5 @@
 package bosbrand.model;
-//Blaat
+//geen blaat meer
 public abstract class Boom implements IBoom {
 	// twee constanten om inbrandheid uit te drukken. Het keyword 'final' zegt dat
 	// deze waarden niet veranderd kunnen worden tijdens het draaien van het
