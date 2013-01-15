@@ -18,7 +18,7 @@ private static String[] s;
 			testInput(args);
 			s = args;
 		}
-		
+		IController control = new Controller(s);
 		/*
 			// en print de toestand af als hij direct deelbaar is door 10
 			if (n % 10 == 0) System.out.println(grond);

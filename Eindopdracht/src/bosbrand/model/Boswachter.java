@@ -12,7 +12,6 @@ public class Boswachter implements IBoswachter {
         this.rij = rij;
         this.kolom = kolom;
         this.grond = grond;
-        this.kavels = kavels;
     }
 
     /**
@@ -144,9 +143,7 @@ public class Boswachter implements IBoswachter {
                 if (omgevingBoswachter[i][j].voortBranden()) {
                     omgevingBoswachter[i][j].doof();
                     aantalGeblusteBomen++;
-
                 }
-
             }
         }
        
@@ -156,9 +153,7 @@ public class Boswachter implements IBoswachter {
     /**
      * stuur een bericht aan alle boswachters. U hoeft dit niet te
      * implementeren, maar het kan handig zijn als U voor de bonus wilt gaan.
-     *
-     * @param het
-     *            bericht dat verstuurd wordt
+     * @param het bericht dat verstuurd wordt
      */
     public void stuurBericht(String bericht) {
     }
