@@ -24,4 +24,12 @@ public class BraamStruik extends Boom implements IBoom {
 		// een kleine letter terug.
 		return (inBrand) ? "B" : "b";
 	}
+	
+	public void doof(){
+		
+	}
+	
+	public void steekAan(){
+		
+	}
 }

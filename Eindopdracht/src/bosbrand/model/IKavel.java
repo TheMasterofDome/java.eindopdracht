@@ -23,5 +23,11 @@ public interface IKavel {
    * in alle andere gevallen null
    */
   public IBoom voortBomen();
+  
+  // als deze methode wordt aangeroepen, dient de kavel in brand te gaan staan.
+  void steekAan();
+  
+  // als deze methode wordt aangeroepen, dient een brand op dat kavel uit te gaan.
+  void doof();
 
 }

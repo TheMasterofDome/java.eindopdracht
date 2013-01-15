@@ -24,4 +24,12 @@ public class Cypres extends Boom implements IBoom {
 	public String toString() {
 		return (inBrand) ? "C" : "c";
 	}
+	
+	public void doof(){
+		
+	}
+	
+	public void steekAan(){
+		
+	}
 }

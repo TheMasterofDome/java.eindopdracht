@@ -24,4 +24,12 @@ public class AppelBoom extends Boom implements IBoom {
 		// een kleine letter terug.
 		return (inBrand) ? "A" : "a";
 	}
+	
+	public void doof(){
+		
+	}
+	
+	public void steekAan(){
+		
+	}
 }

@@ -74,4 +74,12 @@ public class LeegKavel implements IKavel {
 	public String toString() {
 		return ".";
 	}
+	
+	public void doof(){
+		
+	}
+	
+	public void steekAan(){
+		
+	}
 }
