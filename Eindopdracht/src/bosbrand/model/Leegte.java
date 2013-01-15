@@ -42,4 +42,16 @@ public class Leegte implements IKavel {
 	public String toString() {
 		return "^";
 	}
+
+	@Override
+	public void steekAan() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void doof() {
+		// TODO Auto-generated method stub
+		
+	}
 }
