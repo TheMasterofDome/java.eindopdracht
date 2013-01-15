@@ -2,173 +2,190 @@ package bosbrand.model;
 
 public class Boswachter implements IBoswachter {
 
-    int kolom;
-    int rij;
-    IBosbrandModel grond;
-    IKavel[][] kavels;
+	int kolom;
+	int rij;
+	IBosbrandModel grond;
+	IKavel[][] kavels;
+	int targetRij;
+	int targetKolom;
 
+	Boswachter(IBosbrandModel grond, int rij, int kolom) {
+		this.rij = rij;
+		this.kolom = kolom;
+		this.grond = grond;
+	}
 
-    Boswachter(IBosbrandModel grond, int rij, int kolom) {
-        this.rij = rij;
-        this.kolom = kolom;
-        this.grond = grond;
-        this.kavels = kavels;
-    }
+	/**
+	 * de rij waarop deze boswachter staat
+	 * 
+	 * @return de rij waarop deze boswachter staat
+	 */
+	public int getRij() {
+		return rij;
+	}
 
-    /**
-     * de rij waarop deze boswachter staat
-     *
-     * @return de rij waarop deze boswachter staat
-     */
-    public int getRij() {
-        return rij;
-    }
+	/**
+	 * de kolom waarop deze boswachter staat
+	 * 
+	 * @return de kolom waarop deze boswachter staat
+	 */
+	public int getKolom() {
+		return kolom;
+	}
 
-    /**
-     * de kolom waarop deze boswachter staat
-     *
-     * @return de kolom waarop deze boswachter staat
-     */
-    public int getKolom() {
-        return kolom;
-    }
+	/**
+	 * doof alle branden om de boswachter heen, en laat hem een actie uitvoeren
+	 * om effectief volgende branden te bestrijden.
+	 */
+	public void update() {
 
-    /**
-     * doof alle branden om de boswachter heen, en laat hem een actie uitvoeren
-     * om effectief volgende branden te bestrijden.
-     */
-    public void update() {
+		// het aantal gebluste bomen wordt opgevraagd mbv de methode
+		// aantalGeblusteBomen()
+		int aantalGeblusteBomen = aantalGeblusteBomen();
 
-        // het aantal gebluste bomen wordt opgevraagd mbv de methode aantalGeblusteBomen()
-        int aantalGeblusteBomen = aantalGeblusteBomen();
-   
-        // als de boswachter niet geblust heeft (en het aantal gebluste bomen
-        // dus nul is), gaat de boswachter lopen in de richting van de
-        // dichtstbijzijnde in brand staande boom. Hiertoe wordt eerst om de
-        // eerste ring om omgeving gezocht naar een brandende boom, dan om de
-        // tweede, etc. Dit zoeken wordt in een andere methode gedaan, genaamd
-        // zoekBoom(rij, kolom)
-        // OPMERKING: MOET NOG WORDEN OPGESPLITST IN APARTE METHODES, DIT IS
-        // VEEL TE LANG
+		// als de boswachter niet geblust heeft (en het aantal gebluste bomen
+		// dus nul is), zet de boswachter 1 stap in de richting van de
+		// dichtstbijzijnde in brand staande boom
 
-        if (aantalGeblusteBomen == 0) {
-           
-            // roep de methode loop aan voor de kavel waar de boswachter op dat moment op staat
-           
-           
-            // de boswachter loopt door het veld heen, links-->rechts,
-            // boven-->onder. Zodra hij een brandende boom tegenkomt die
-            // dichterbij hem is dan de vorige, wordt dat het nieuwe target. Het
-            // target wordt eerst op [0][0] gezet.
+		if (aantalGeblusteBomen == 0) {
 
-            // methode: rij target
+			findClosestTree();
 
+			rij = veranderRij();
+			kolom = veranderKolom();
 
-            int boswachterRij;
-            int boswachterKolom;
-            // uitzoeken hoe te initialiseren, dit klopt alleen als boswachter
-            // in rechter onderhoek staat
-            int boomRij = 0;
-            int boomKolom = 0;
-            IKavel target = grond.getKavels()[boomRij][boomKolom];
+		}
 
-            for (boswachterRij = 0; boswachterRij < kavels.length; boswachterRij++) {
-                for (boswachterKolom = 0; boswachterKolom < kavels[rij].length; boswachterKolom++) {
-                    if (kavels[boswachterRij][boswachterKolom].voortBranden()) {
-                        // controleer of de boom dichterbij staat dan de vorige
-                        // boom
-                       
-                        if (boswachterRij < boomRij
-                                || boswachterKolom < boomKolom) {
+	}
 
-                            // target heb ik denk ik niet nodig? volgens mij
-                            // alleen boswachterRij en boswachterKolom nodig
-                            target = kavels[boswachterRij][boswachterKolom];
-                        }
+	// in deze methode worden bomen in de omgeving geblust.
+	// tevens wordt het aantal gebluste bomen bijgehouden.
+	private int aantalGeblusteBomen() {
 
-                    }
-                }
-            }
+		// het aantal gebluste bomen wordt eerst op nul gezet.
+		int aantalGeblusteBomen = 0;
+		// maak een nieuw IKavel[][] object aan, met de waarde van de omgeving
+		// van de kavel waar de boswachter op staat.
 
-            // als het target is bepaald, zet de boswachter één stap in de
-            // richting van dit target. Een boswachter mag schuin lopen.
+		IKavel[][] omgevingBoswachter = grond.omgeving(rij, kolom);
+		// loop over deze omgeving, op zoek naar brandende bomen
+		for (int i = 0; i < omgevingBoswachter.length; i++) {
+			for (int j = 0; j < omgevingBoswachter[i].length; j++) {
+				// als er een brandende boom gevonden wordt, laat de boom dan
+				// uitdoven dmv het aanroepen van de methode doof();
+				// houd ondertussen ook het aantal brandende bomen bij.
 
-            int rijVerschil = boomRij - rij;
-            int kolomVerschil = boomKolom - kolom;
+				if (omgevingBoswachter[i][j].voortBranden()) {
+					omgevingBoswachter[i][j].doof();
+					aantalGeblusteBomen++;
 
-            // als de boom boven de boswachter is, gaat de boswachter 1 plaats
-            // omhoog
-            if (rijVerschil < 0) {
-                rij--;
+				}
 
-            }
-            // als de boom onder de boswachter is, gaat de boswachter 1 plaats
-            // omlaag
-            if (rijVerschil > 0) {
-                rij++;
-            }
+			}
+		}
 
-            // als de boom links van de boswachter is, gaat de boswachter 1
-            // plaats naar links
-            if (kolomVerschil < 0) {
-                kolom--;
-            }
+		return aantalGeblusteBomen;
+	}
 
-            // als de boom rechts van de boswachter is, gaat de boswachter in
-            // plaats naar rechts
-            if (kolomVerschil > 0) {
-                kolom++;
-            }
-        }
+	// bepaal wat de nieuwe rij is voor de boswachter
+	private int veranderRij() {
+		int rijVerschil = berekenRijVerschil();
 
-    }
+		if (rijVerschil < 0) {
+			rij--;
+		}
+		if (rijVerschil > 0) {
+			rij++;
+		}
+		return rij;
+	}
 
+	// bepaal wat de nieuwe kolom is voor de boswachter
+	private int veranderKolom() {
 
-    // in deze methode worden bomen in de omgeving geblust.
-    // tevens wordt het aantal gebluste bomen bijgehouden.
-    private int aantalGeblusteBomen(){
-   
-        // het aantal gebluste bomen wordt eerst op nul gezet.
-        int aantalGeblusteBomen = 0;
-        // maak een nieuw IKavel[][] object aan, met de waarde van de omgeving
-        // van de kavel waar de boswachter op staat.
+		int kolomVerschil = berekenKolomVerschil();
+		if (kolomVerschil < 0) {
+			kolom--;
+		}
 
-        IKavel[][] omgevingBoswachter = grond.omgeving(rij, kolom);
-        // loop over deze omgeving, op zoek naar brandende bomen
-        for (int i = 0; i < omgevingBoswachter.length; i++) {
-            for (int j = 0; j < omgevingBoswachter[i].length; j++) {
-                // als er een brandende boom gevonden wordt, laat de boom dan
-                // uitdoven dmv het aanroepen van de methode doof();
-                // houd ondertussen ook het aantal brandende bomen bij.
+		if (kolomVerschil > 0) {
+			kolom++;
+		}
+		return kolom;
+	}
 
-                if (omgevingBoswachter[i][j].voortBranden()) {
-                    omgevingBoswachter[i][j].doof();
-                    aantalGeblusteBomen++;
+	// deze methode bepaalt de afstand tussen een
+	// boswachter en een brandende boom
+	private int berekenAantalStappen(int lengte, int breedte) {
 
-                }
+		int maxAantalStappen = Math.max(lengte, breedte) - 1;
+		return maxAantalStappen;
+	}
 
-            }
-        }
-       
-        return aantalGeblusteBomen;
-    }
+	// deze methode bepaalt de afstand in rijen tot de dichtstbijzijnde
+	// brandende boom
+	private int berekenRijVerschil() {
+		int RijVerschil = rij - targetRij;
+		return RijVerschil;
+	}
 
-    /**
-     * stuur een bericht aan alle boswachters. U hoeft dit niet te
-     * implementeren, maar het kan handig zijn als U voor de bonus wilt gaan.
-     *
-     * @param het
-     *            bericht dat verstuurd wordt
-     */
-    public void stuurBericht(String bericht) {
-    }
+	// deze methode bepaalt de afstand in kolommen tot de dichtstbijzijnde
+	// brandende boom
+	private int berekenKolomVerschil() {
+		return 0;
+	}
 
-    /**
-     * haal alle berichten op die zijn verstuurd sinds de laatste keer dat deze
-     * actie werd uitgevoerd. U hoeft dit niet te implementeren, maar het kan
-     * handig zijn als U voor de bonus wilt gaan.
-     */
-    public void ontvangBerichten() {
-    }
+	private void findClosestTree() {
+
+		int boomRij;
+		int boomKolom;
+		// bepaal de maximumafstand die een boswachter tot een brandende
+		// boom kan hebben
+
+		int maxAantalStappen = berekenAantalStappen(grond.getKavels().length,
+				grond.getKavels()[0].length);
+
+		for (boomRij = 0; boomRij < kavels.length; boomRij++) {
+			for (boomKolom = 0; boomKolom < kavels[rij].length; boomKolom++) {
+				if (kavels[boomRij][boomKolom].voortBranden()) {
+					// bereken het aantal stappen dat een boswachter
+					// verwijderd is van de brandende boom
+
+					int verschilRij = Math.abs(rij - boomRij);
+					int verschilKolom = Math.abs(kolom - boomKolom);
+					int aantalStappen = berekenAantalStappen(verschilRij,
+							verschilKolom);
+
+					// controleer of de boom in minder stappen te bereiken
+					// is dan de vorige boom
+
+					if (aantalStappen < maxAantalStappen) {
+						targetRij = boomRij;
+						targetKolom = boomKolom;
+					}
+
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * stuur een bericht aan alle boswachters. U hoeft dit niet te
+	 * implementeren, maar het kan handig zijn als U voor de bonus wilt gaan.
+	 * 
+	 * @param het
+	 *            bericht dat verstuurd wordt
+	 */
+	public void stuurBericht(String bericht) {
+	}
+
+	/**
+	 * haal alle berichten op die zijn verstuurd sinds de laatste keer dat deze
+	 * actie werd uitgevoerd. U hoeft dit niet te implementeren, maar het kan
+	 * handig zijn als U voor de bonus wilt gaan.
+	 */
+	public void ontvangBerichten() {
+	}
 
 }
