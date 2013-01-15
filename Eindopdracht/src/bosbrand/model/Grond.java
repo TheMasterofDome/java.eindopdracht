@@ -52,7 +52,7 @@ public class Grond implements IBosbrandModel {
 			}
 		}
 		// ArrayList omzetten in een array van het type IBoswachter.
-		IBoswachter[] bw = (IBoswachter[]) al.toArray();
+		IBoswachter[] bw = al.toArray(new Boswachter[al.size()]);
 
 		return bw;
 	}

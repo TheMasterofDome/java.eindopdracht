@@ -1,7 +1,5 @@
 package bosbrand.model;
 
-import bosbrand.view.*;
-
 public interface IBosbrandModel extends IGrond {
 	/**
 	 * initialiseer een wereld. De Input is zoals aangegeven in opdracht 3.
