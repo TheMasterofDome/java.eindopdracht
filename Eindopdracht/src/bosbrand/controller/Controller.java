@@ -1,6 +1,8 @@
 package bosbrand.controller;
 
+import java.awt.event.*;
 import java.util.*;
+import javax.swing.Timer;
 
 import bosbrand.view.*;
 import bosbrand.model.*;
@@ -8,25 +10,64 @@ import bosbrand.model.*;
 public class Controller implements IController {
 
 	private IBosbrandModel grond;
+	private ActionListener listener;
+	private Timer displayTimer;
+	private boolean timerRunning;
 	
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
 	 * @param wereld de string met de input, of de random grond.
+	 * De Timer staat in de constructor zodat we hem door de hele Controller kunnen starten/stoppen.
 	 */
 	public Controller(String[] wereld) {
+		timerRunning = false;
 		grond = new Grond();
 		grond.initialiseer(wereld);
 		afbeelden();
+		listener = new ActionListener(){
+			public void actionPerformed(ActionEvent event){
+				doen();
+			}
+		};
+		displayTimer = new Timer(100, listener);
 	}
 
+	/**
+	 * Laat het model weer vanaf het begin beginnen:
+	 * Kavels terug naar origineel, boswachters weg, update-counter weer naar 0.
+	 * Pauzeer de timer tijdens de reset om te voorkomen dat er ongelukken gebeuren als nog niet het hele veld gereset is
+	 * maar het veld wel weer geupdate wordt, bijvoorbeeld.
+	 */
 	public void doeReset() {
-		// TODO Auto-generated method stub
-
+		//Pauzeer timer eventueel.
+		displayTimer.stop();
+		
+		//Kavels terug naar origineel en boswachters weg.
+		grond.reset();
+		
+		//Timer weer starten --> Simulatie weer doorlaten gaan.
+		displayTimer.start();
 	}
-
+	
+	/**
+	 * Methode die uitvoert wat er moet gebeuren als de Timer een Action Event gooit.
+	 */
+	private void doen() {
+		grond.update();
+		// TODO even checken wat ie nog meer moet doen. (Veld updaten bijvoobeeld?
+	}
+	
+	/**
+	 * Methode voor de 'Simuleer'-knop.
+	 */
 	public void doeSimuleer() {
-		// TODO Auto-generated method stub
-
+		if (!timerRunning) {
+			timerRunning = true;
+			displayTimer.start();
+		}
+		else if (timerRunning) {
+			displayTimer.stop();
+		}
 	}
 
 	/**
@@ -57,17 +98,17 @@ public class Controller implements IController {
 			}
 		}
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
-		//afbeelden in view aanroepen.
-		System.out.println(afbeeldData[0].getZijde());
+		// TODO afbeelden() in VIew aanroepen
 	}
 
 	public void toggleBoswachter(int rij, int kolom) {
-		// TODO Auto-generated method stub
+		// TODO Bepalen waar we Action Event handling gaan doen.
+		// TODO aan de hand van de positie van de muis lokatie bepalen en toggleBoswachter in Grond aanroepen op die positie.
 
 	}
 
 	public void toggleVuur(int rij, int kolom) {
-		// TODO Auto-generated method stub
+		// TODO Zie toggleBoswachter()
 
 	}
 
