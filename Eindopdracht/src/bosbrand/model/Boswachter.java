@@ -7,7 +7,7 @@ public class Boswachter implements IBoswachter {
 	IGrond grond;
 	IKavel[][] kavels;
 
-	Boswachter(IKavel[][] kavels, IGrond grond, int rij, int kolom) {
+	Boswachter(IGrond grond, int rij, int kolom) {
 		this.rij = rij;
 		this.kolom = kolom;
 		this.grond = grond;
@@ -89,7 +89,7 @@ public class Boswachter implements IBoswachter {
 					if (kavels[boswachterRij][boswachterKolom].voortBranden()) {
 						// controleer of de boom dichterbij staat dan de vorige
 						// boom
-
+						
 						if (boswachterRij < boomRij
 								|| boswachterKolom < boomKolom) {
 

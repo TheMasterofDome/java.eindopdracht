@@ -10,10 +10,9 @@ public class Grond implements IBosbrandModel {
 	IBoswachter[][] posBoswachters;
 
 	/**
-	 * Methode die de grond opstelt uit de input.
-	 * 
-	 * @param String
-	 *            [] wereld: De input van de commandline
+	 * Methode die de grond opstelt uit de input. En die de positie-array van de boswachters maakt. Deze arrays zijn even groot en de x, y coordinaten komen
+	 * dus overeen. 
+	 * @param String[] wereld: De input van de commandline
 	 */
 	public void initialiseer(String[] wereld) {
 		int lengte = wereld.length;
@@ -94,7 +93,7 @@ public class Grond implements IBosbrandModel {
 		if (posBoswachters[rij][kolom] instanceof Boswachter) {
 			posBoswachters[rij][kolom] = null;
 		} else
-			posBoswachters[rij][kolom] = new Boswachter(kavels, this, rij, kolom);
+			posBoswachters[rij][kolom] = new Boswachter(this, rij, kolom);
 	}
 
 	/**
