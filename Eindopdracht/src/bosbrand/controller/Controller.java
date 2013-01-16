@@ -40,15 +40,9 @@ public class Controller implements IController {
 	 * maar het veld wel weer geupdate wordt, bijvoorbeeld.
 	 */
 	public void doeReset() {
-		System.out.println("Reset");
-		//Pauzeer timer eventueel.
-		displayTimer.stop();
-		
-		//Kavels terug naar origineel en boswachters weg.
+		//Kavels terug naar origineel en boswachters weg, en opnieuw afbeelden.
 		grond.reset();
-		
-		//Timer weer starten --> Simulatie weer doorlaten gaan.
-		displayTimer.start();
+		afbeelden();
 	}
 	
 	/**
@@ -72,7 +66,6 @@ public class Controller implements IController {
 	 * Methode voor de 'Simuleer'-knop.
 	 */
 	public void doeSimuleer() {
-		System.out.println("Simuleer");
 		if (!timerRunning) {
 			displayTimer.start();
 			timerRunning = true;

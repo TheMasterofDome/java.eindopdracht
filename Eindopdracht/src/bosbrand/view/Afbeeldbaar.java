@@ -12,7 +12,7 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	
 	public Afbeeldbaar(int x, int y, char kleur) {
 		color = kleur;
-		zijde = 10;
+		zijde = 50;
 		this.x = x;
 		this.y = y;
 	}
@@ -25,7 +25,7 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 		switch (color) {
 			case 'R': 	kleurtje = Color.red; 
 						break;
-			case 'S': 	kleurtje = Color.green; 
+			case 'G': 	kleurtje = Color.green; 
 						break;
 			default: 	kleurtje = Color.yellow; 
 						break;
