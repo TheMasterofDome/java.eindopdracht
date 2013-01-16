@@ -6,29 +6,36 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	private int zijde;
 	private int rij;
 	private int kolom;
-	private Color kleur;
+	private char color;
 	
 	// TODO middelpunt moet nog in midden.
 	
 	public Afbeeldbaar(int rij, int kolom, char kleur) {
-		this.kleur = setKleur(kleur);
+		color = kleur;
 		zijde = 10;
 		this.rij = rij;
 		this.kolom = kolom;
 	}
 	
 	private Color setKleur(char c) {
-		if (c == 'R') {
-			return Color.red;
-		}
-		else if (c == 'G') {
-			return Color.green;
-		}
-		else return Color.yellow;
+		return null;
 	}
 
+	//Werkt niet. Waarom is een raadsel.
 	public Color getColor() {
-		return kleur;
+		Color kleurtje;
+		switch (color) {
+			case 'R': 	kleurtje = Color.red; 
+						System.out.println("lol"); 
+						break;
+			case 'S': 	kleurtje = Color.green; 
+						System.out.println("lol2"); 
+						break;
+			default: 	kleurtje = Color.yellow; 
+						System.out.println("loldef");
+						break;
+		}
+		return kleurtje;
 	}
 	
 	public int getZijde() {

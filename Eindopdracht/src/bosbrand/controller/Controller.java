@@ -40,6 +40,7 @@ public class Controller implements IController {
 	 * maar het veld wel weer geupdate wordt, bijvoorbeeld.
 	 */
 	public void doeReset() {
+		System.out.println("Reset");
 		//Pauzeer timer eventueel.
 		displayTimer.stop();
 		
@@ -63,6 +64,7 @@ public class Controller implements IController {
 	 * Methode voor de 'Simuleer'-knop.
 	 */
 	public void doeSimuleer() {
+		System.out.println("SImuleer");
 		if (!timerRunning) {
 			displayTimer.start();
 			timerRunning = true;
@@ -79,26 +81,25 @@ public class Controller implements IController {
 	public void afbeelden() {
 		IKavel[][] kavels = grond.getKavels();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
+		IAfbeeldbaar af;
 		
 		//Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand staat of leeg is.
 		//De randgevallen skipt ie.
+		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
 		for (int r=0;r<kavels.length;r++) {
 			for (int c=0;c<kavels[r].length;c++) {
-				System.out.println("In brand? "+kavels[r][c].voortBranden());
 				if (kavels[r][c] instanceof LeegKavel) {
-					IAfbeeldbaar af = new Afbeeldbaar(r , c, 'B');
-					afb.add(af);
+					af = new Afbeeldbaar(r , c, 'B');
 				}
 				else {
 					if (kavels[r][c].voortBranden()) {
-						IAfbeeldbaar af = new Afbeeldbaar(r , c, 'R');
-						afb.add(af);
+						af = new Afbeeldbaar(r , c, 'R');
 					}
-					else if (!(kavels[r][c].voortBranden())){
-						IAfbeeldbaar af = new Afbeeldbaar(r , c, 'G');
-						afb.add(af);
+					else {
+						af = new Afbeeldbaar(r , c, 'G');
 					}
 				}
+				afb.add(af);
 			}
 		}
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
