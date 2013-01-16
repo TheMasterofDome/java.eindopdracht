@@ -86,55 +86,7 @@ public class Boswachter implements IBoswachter {
 
         return aantalGeblusteBomen;
     }
-
-    // bepaal wat de nieuwe rij is voor de boswachter
-    private int veranderRij() {
-        int rijVerschil = berekenRijVerschil();
-
-        if (rijVerschil < 0) {
-            rij--;
-        }
-        if (rijVerschil > 0) {
-            rij++;
-        }
-        return rij;
-    }
-
-    // bepaal wat de nieuwe kolom is voor de boswachter
-    private int veranderKolom() {
-
-        int kolomVerschil = berekenKolomVerschil();
-        if (kolomVerschil < 0) {
-            kolom--;
-        }
-
-        if (kolomVerschil > 0) {
-            kolom++;
-        }
-        return kolom;
-    }
-
-    // deze methode bepaalt de afstand tussen een
-    // boswachter en een brandende boom
-    private int berekenAantalStappen(int lengte, int breedte) {
-
-        int maxAantalStappen = Math.max(lengte, breedte) - 1;
-        return maxAantalStappen;
-    }
-
-    // deze methode bepaalt de afstand in rijen tot de dichtstbijzijnde
-    // brandende boom
-    private int berekenRijVerschil() {
-        int RijVerschil = rij - targetRij;
-        return RijVerschil;
-    }
-
-    // deze methode bepaalt de afstand in kolommen tot de dichtstbijzijnde
-    // brandende boom
-    private int berekenKolomVerschil() {
-        return 0;
-    }
-
+    
     private void findClosestTree() {
 
         int boomRij;
@@ -169,6 +121,59 @@ public class Boswachter implements IBoswachter {
         }
 
     }
+    
+    // deze methode bepaalt de afstand tussen een
+    // boswachter en een brandende boom
+    private int berekenAantalStappen(int lengte, int breedte) {
+
+        int AantalStappen = Math.max(lengte, breedte) - 1;
+        return AantalStappen;
+    }
+
+    // bepaal wat de nieuwe rij is voor de boswachter
+    private int veranderRij() {
+        int rijVerschil = berekenRijVerschil();
+
+        if (rijVerschil < 0) {
+            rij--;
+        }
+        if (rijVerschil > 0) {
+            rij++;
+        }
+        return rij;
+    }
+
+    // bepaal wat de nieuwe kolom is voor de boswachter
+    private int veranderKolom() {
+
+        int kolomVerschil = berekenKolomVerschil();
+        if (kolomVerschil < 0) {
+            kolom--;
+        }
+
+        if (kolomVerschil > 0) {
+            kolom++;
+        }
+        return kolom;
+    }
+
+    
+
+    // deze methode bepaalt de afstand in rijen tot de dichtstbijzijnde
+    // brandende boom
+    private int berekenRijVerschil() {
+        int rijVerschil = rij - targetRij;
+        return rijVerschil;
+    }
+
+    // deze methode bepaalt de afstand in kolommen tot de dichtstbijzijnde
+    // brandende boom
+    private int berekenKolomVerschil() {
+        int kolomVerschil = kolom - targetKolom;
+        return kolomVerschil;
+    }
+
+
 
     /**
      * stuur een bericht aan alle boswachters. U hoeft dit niet te
