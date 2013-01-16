@@ -112,9 +112,8 @@ public class View implements IView, ComponentListener {
 		};
 		btnGenerate.addActionListener(listenerGenerate);
 
-		// TODO: voeg een action listener toe voor de reset-knop
 
-		// maak de simulate-knop en roep de methode doeSimuleer aan als op deze
+		// maak de simulate-knop en roep de methode doeSimuleer() aan als op deze
 		// knop wordt gedrukt
 		JButton btnSimulate = new JButton("Simuleer");
 		pButtonArea.add(btnSimulate);
@@ -124,8 +123,8 @@ public class View implements IView, ComponentListener {
 			}
 
 		};
-
-		// TODO: voeg een action listener toe voor de simulate-knop
+		
+		btnGenerate.addActionListener(listenerSimulate);
 
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
