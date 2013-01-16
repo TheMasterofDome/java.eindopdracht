@@ -130,8 +130,7 @@ public class View implements IView, ComponentListener {
 			}
 
 		};
-
-		btnGenerate.addActionListener(listenerSimulate);
+		btnSimulate.addActionListener(listenerSimulate);
 
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
