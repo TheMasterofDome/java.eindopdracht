@@ -104,20 +104,25 @@ public class Controller implements IController {
 		}
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
 		//view.afbeelden(afbeeldData);
-		IAfbeeldbaar[] afbeeldTest = new Afbeeldbaar[1];
-		afbeeldTest[0] = new Afbeeldbaar(10,10,'G');
-		view.afbeelden(afbeeldTest);
+		view.afbeelden(afbeeldData);
 	}
 
+	/**
+	 * Deze methode doet niets anders dan de toggleBoswachtermethode in Grond aanroepen.
+	 * @param rij de rij van het kavel, die hij meekrijgt uit View.
+	 * @param kolom de kolom van het kavel, die hij meekrijgt van View
+	 */
 	public void toggleBoswachter(int rij, int kolom) {
-		// TODO Bepalen waar we Event handling gaan doen.
-		// TODO aan de hand van de positie van de muis lokatie bepalen en toggleBoswachter in Grond aanroepen op die positie.
-
+		grond.toggleBoswachter(rij, kolom);
 	}
 
+	/**
+	 * Deze methode doet niets anders dan de toggleVuurmethode in Grond aanroepen.
+	 * @param rij de rij van het kavel, die hij meekrijgt uit View.
+	 * @param kolom de kolom van het kavel, die hij meekrijgt van View
+	 */
 	public void toggleVuur(int rij, int kolom) {
-		// TODO Zie toggleBoswachter()
-
+		grond.toggleVuur(rij, kolom);
 	}
 
 }
