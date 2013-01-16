@@ -42,7 +42,7 @@ public class View implements IView, ComponentListener {
 	 *         gebied weergeeft.
 	 */
 	public Point getMidden() {
-		
+
 		return midden;
 	}
 
@@ -101,15 +101,29 @@ public class View implements IView, ComponentListener {
 		pButtonArea.setLayout(new BoxLayout(pButtonArea, BoxLayout.Y_AXIS));
 		content.add(pButtonArea, BorderLayout.LINE_END);
 
-		// maak de reset-knop
+		// maak de reset-knop en roep de methode doeReset() aan als op deze knop
+		// wordt gedrukt
 		JButton btnGenerate = new JButton("Reset");
 		pButtonArea.add(btnGenerate);
+		ActionListener listenerGenerate = new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				controller.doeReset();
+			}
+		};
+		btnGenerate.addActionListener(listenerGenerate);
 
 		// TODO: voeg een action listener toe voor de reset-knop
 
-		// maak de simulate-knop
+		// maak de simulate-knop en roep de methode doeSimuleer aan als op deze
+		// knop wordt gedrukt
 		JButton btnSimulate = new JButton("Simuleer");
 		pButtonArea.add(btnSimulate);
+		ActionListener listenerSimulate = new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				controller.doeSimuleer();
+			}
+
+		};
 
 		// TODO: voeg een action listener toe voor de simulate-knop
 
