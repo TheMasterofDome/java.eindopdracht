@@ -31,12 +31,6 @@ private static String[] s;
 		//Rijtje met acceptabele karakters.
 		String juisteInput = "ABCabc.";
 		
-		//Testen of er überhaupt wel parameters zijn gegeven.
-		if (param.length <= 0) {
-			inputJuist = false;
-			melding = "Geen parameters.";
-		}
-		
 		//Testen of 'ie rechthoekig is (als er parameters zijn) door voor alle rijen, de lengte van de rij met de volgende te vergelijken.
 		if (inputJuist) {
 			for (int r=0;r<param.length;r++) {
@@ -82,8 +76,9 @@ private static String[] s;
 		//Als er geen argumenten zijn meegegeven maken we een willekeurig bos in de vorm van een String array.
 		//Ja, dat is een beetje dubbelop (String[] maken en straks weer ontleden), maar anders moest ik teveel herschijven.
 			//Willekeurige lengte en breedte van het bos instellen. Maximaal 50, anders wordt het te gek.
-			int lengte = generator.nextInt(50);
-			int breedte = generator.nextInt(50);
+			int lengte  = maakLengte();
+			int breedte  = maakBreedte();
+			
 			//Nieuwe String array maken en iedere rij (lengte) opvullen met een String.
 			//Deze string wordt gemaakt door voor breedte een karakter van een willekeurige positie uit chars er bij te doen.
 			String[] rand = new String[lengte];
@@ -96,4 +91,29 @@ private static String[] s;
 		}
 	return rand;
 	}
+	
+	/**
+	 * Methode die een random lengte geeft tussen 0 en 50
+	 * @return de willekeurige lengte
+	 */
+	private static int maakLengte(){
+		Random generator = new Random();
+		int lengte = generator.nextInt(50);
+		return (lengte > 0) ? lengte:maakLengte();
+	}
+	
+	/**
+	 * Methode die een random lengte geeft tussen 0 en 50
+	 * @return de willekeurige lengte
+	 */
+	private static int maakBreedte(){
+		Random generator = new Random();
+		int breedte = generator.nextInt(50);
+		if (breedte > 0) {
+			return breedte;
+		}
+		else maakLengte();
+		return breedte;
+	}
+		
 }
