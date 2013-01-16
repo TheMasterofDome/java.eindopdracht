@@ -120,7 +120,8 @@ public class View implements IView, ComponentListener {
 		btnGenerate.addActionListener(listenerGenerate);
 
 		// maak de simulate-knop en roep de methode doeSimuleer() aan als op
-		// deze knop wordt gedrukt
+		// deze
+		// knop wordt gedrukt
 		JButton btnSimulate = new JButton("Simuleer");
 		pButtonArea.add(btnSimulate);
 		ActionListener listenerSimulate = new ActionListener() {
