@@ -141,38 +141,41 @@ public class View implements IView, ComponentListener {
 			// (rechts of links) er wordt geklikt en roep de bijbehorende
 			// methode aan
 			public void mouseClicked(MouseEvent e) {
+				int rij = e.getY() / Afbeeldbaar.zijde;
+				int kolom = e.getX() / Afbeeldbaar.zijde;
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					// TO DO: rij en kolom uitrekenen
-					controller.toggleBoswachter(1, 2);
+
+					controller.toggleBoswachter(rij, kolom);
+
 				}
-				if (SwingUtilities.isRightMouseButton(e)) {
-					// TO DO: rij en kolom uitrekenen
-					controller.toggleBoswachter(1, 2);
+
+				else if (SwingUtilities.isRightMouseButton(e)){
+					controller.toggleVuur(rij, kolom);
 				}
 			}
 
 			public void mousePressed(MouseEvent e) {
 				// TO DO: beeld mee laten bewegen met de cursor
 			}
-			
-			public void mouseReleased(MouseEvent e){
+
+			public void mouseReleased(MouseEvent e) {
 				// TO DO: methode schrijven die verantwoordelijk is voor het
 				// verplaatsen van het venster bij slepen. Die methode hier
 				// aanroepen op controller
 			}
-			
-			public void mouseEntered(MouseEvent e){
+
+			public void mouseEntered(MouseEvent e) {
 				// volgens mij hoeven we hier niks mee
 			}
-			
-			public void mouseExited(MouseEvent e){
+
+			public void mouseExited(MouseEvent e) {
 				// volgens mij hoeven we hier niks mee
 			}
-			
+
 		};
 
 		dpTekenGebied.addMouseListener(muis);
-		
+
 		// TODO: voeg een mouseListener en een mouseMotionListener toe voor het
 		// panel om op te tekenen
 	}
