@@ -16,23 +16,18 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 		this.rij = rij;
 		this.kolom = kolom;
 	}
-	
-	private Color setKleur(char c) {
-		return null;
-	}
 
-	//Werkt niet. Waarom is een raadsel.
+	/**
+	 * Mehtod eom de kleur te bepalen aan de hand van de meegegeven letterwaarde.
+	 */
 	public Color getColor() {
 		Color kleurtje;
 		switch (color) {
 			case 'R': 	kleurtje = Color.red; 
-						System.out.println("lol"); 
 						break;
 			case 'S': 	kleurtje = Color.green; 
-						System.out.println("lol2"); 
 						break;
 			default: 	kleurtje = Color.yellow; 
-						System.out.println("loldef");
 						break;
 		}
 		return kleurtje;

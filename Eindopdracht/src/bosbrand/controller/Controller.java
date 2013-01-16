@@ -104,9 +104,7 @@ public class Controller implements IController {
 		}
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
 		//view.afbeelden(afbeeldData);
-		IAfbeeldbaar[] afbeeldTest = new Afbeeldbaar[1];
-		afbeeldTest[0] = new Afbeeldbaar(10,10,'G');
-		view.afbeelden(afbeeldTest);
+		view.afbeelden(afbeeldData);
 	}
 
 	public void toggleBoswachter(int rij, int kolom) {
