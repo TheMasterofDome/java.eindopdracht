@@ -21,6 +21,8 @@ private static String[] s;
 		IController control = new Controller(s);
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @param param: De String[] met daarin de input.

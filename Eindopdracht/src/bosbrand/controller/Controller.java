@@ -64,7 +64,7 @@ public class Controller implements IController {
 	 * Methode voor de 'Simuleer'-knop.
 	 */
 	public void doeSimuleer() {
-		System.out.println("SImuleer");
+		System.out.println("Simuleer");
 		if (!timerRunning) {
 			displayTimer.start();
 			timerRunning = true;
