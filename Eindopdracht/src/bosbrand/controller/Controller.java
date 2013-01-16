@@ -55,9 +55,17 @@ public class Controller implements IController {
 	 * Methode die uitvoert wat er moet gebeuren als de Timer een Action Event gooit.
 	 */
 	private void doen() {
+		//De grond naar de volgende toestand updaten volgens dew regels van Opdracht 3.
 		grond.update();
-		//afbeelden();
-		// TODO even checken wat ie nog meer moet doen. (Veld updaten bijvoobeeld?
+		
+		//Alle boswachters hun ding laten doen
+		IBoswachter[] boswachters = grond.getBoswachters();
+		for (IBoswachter bw: boswachters) {
+			bw.update();
+		}
+		
+		//De nieuwe grond afbeelden
+		afbeelden();
 	}
 	
 	/**
