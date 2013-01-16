@@ -55,9 +55,17 @@ public class Controller implements IController {
 	 * Methode die uitvoert wat er moet gebeuren als de Timer een Action Event gooit.
 	 */
 	private void doen() {
+		//De grond naar de volgende toestand updaten volgens dew regels van Opdracht 3.
 		grond.update();
-		//afbeelden();
-		// TODO even checken wat ie nog meer moet doen. (Veld updaten bijvoobeeld?
+		
+		//Alle boswachters hun ding laten doen
+		IBoswachter[] boswachters = grond.getBoswachters();
+		for (IBoswachter bw: boswachters) {
+			bw.update();
+		}
+		
+		//De nieuwe grond afbeelden
+		afbeelden();
 	}
 	
 	/**
@@ -81,26 +89,32 @@ public class Controller implements IController {
 	public void afbeelden() {
 		IKavel[][] kavels = grond.getKavels();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
-		IAfbeeldbaar af;
+		IAfbeeldbaar af = new Afbeeldbaar(0,0,' ');
 		
 		//Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand staat of leeg is.
 		//De randgevallen skipt ie.
 		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
+		//Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende coordinaten meegeven.
+		int y = 0;
 		for (int r=0;r<kavels.length;r++) {
+			int x = 0;
 			for (int c=0;c<kavels[r].length;c++) {
+				
 				if (kavels[r][c] instanceof LeegKavel) {
-					af = new Afbeeldbaar(r , c, 'B');
+					af = new Afbeeldbaar(x , y, 'B');
 				}
 				else {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(r , c, 'R');
+						af = new Afbeeldbaar(x , y, 'R');
 					}
 					else {
-						af = new Afbeeldbaar(r , c, 'G');
+						af = new Afbeeldbaar(x , y, 'G');
 					}
 				}
 				afb.add(af);
+				x = x + af.getZijde();
 			}
+			y = y + af.getZijde();
 		}
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
 		//view.afbeelden(afbeeldData);

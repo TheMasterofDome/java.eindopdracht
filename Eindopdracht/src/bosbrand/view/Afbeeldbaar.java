@@ -4,17 +4,17 @@ import java.awt.*;
 
 public class Afbeeldbaar implements IAfbeeldbaar {
 	private int zijde;
-	private int rij;
-	private int kolom;
+	private int x;
+	private int y;
 	private char color;
 	
 	// TODO middelpunt moet nog in midden.
 	
-	public Afbeeldbaar(int rij, int kolom, char kleur) {
+	public Afbeeldbaar(int x, int y, char kleur) {
 		color = kleur;
 		zijde = 10;
-		this.rij = rij;
-		this.kolom = kolom;
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -38,13 +38,11 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	}
 
 	public int getX() {
-		// TODO: shit
-		return rij;
+		return x;
 	}
 
 	public int getY() {
-		// TODO: shit
-		return kolom;
+		return y;
 	}
 
 }
