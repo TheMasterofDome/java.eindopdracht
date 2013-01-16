@@ -20,7 +20,9 @@ public class View implements IView, ComponentListener {
 
 	/**
 	 * Constructor die het frame en de controls erop aanmaakt.
-	 * @param controller de controller die deze view en het bijbehorende model bestuurt
+	 * 
+	 * @param controller
+	 *            de controller die deze view en het bijbehorende model bestuurt
 	 */
 	public View(IController controller) {
 		this.controller = controller;
@@ -35,7 +37,9 @@ public class View implements IView, ComponentListener {
 
 	/**
 	 * middelpunt van het venster.
-	 * @return een java.awt.Point object dat het midden van het af te beelden gebied weergeeft.
+	 * 
+	 * @return een java.awt.Point object dat het midden van het af te beelden
+	 *         gebied weergeeft.
 	 */
 	public Point getMidden() {
 		return midden;
@@ -43,7 +47,10 @@ public class View implements IView, ComponentListener {
 
 	/**
 	 * stel middenpunt in
-	 * @param een java.awt.Point object dat het midden van het af te beelden gebied weergeeft.
+	 * 
+	 * @param een
+	 *            java.awt.Point object dat het midden van het af te beelden
+	 *            gebied weergeeft.
 	 */
 	public void setMidden(Point midden) {
 		this.midden = midden;
@@ -56,13 +63,15 @@ public class View implements IView, ComponentListener {
 	 * @param afTeBeeldenData
 	 *            een array met afbeeldbare data
 	 */
-	public void afbeelden(IAfbeeldbaar[] afTeBeeldenData) {		
-		//Venster leegmaken
+	public void afbeelden(IAfbeeldbaar[] afTeBeeldenData) {
+		// Venster leegmaken
 		dpTekenGebied.leegmaken();
-		
-		//Loop door de array en beeld elk kavel af met behulp van zijn Afbeeldbaar object.
-		for (IAfbeeldbaar beelden: afTeBeeldenData) {
-			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), beelden.getZijde(), beelden.getZijde(), beelden.getColor());
+
+		// Loop door de array en beeld elk kavel af met behulp van zijn
+		// Afbeeldbaar object.
+		for (IAfbeeldbaar beelden : afTeBeeldenData) {
+			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(),
+					beelden.getZijde(), beelden.getZijde(), beelden.getColor());
 		}
 
 		// beeld het tekenpanel opnieuw af
@@ -97,6 +106,10 @@ public class View implements IView, ComponentListener {
 
 		// maak de reset-knop en roep de methode doeReset() aan als op deze knop
 		// wordt gedrukt
+		// TO DO: zorgen dat "reset" doeReset aanroept en dat "Simuleer"
+		// doeSimuleer aanroept.
+		// nu: bij Simuleer gebeurt niks, bij Reset worden ze allebei
+		// aangeroepen
 		JButton btnGenerate = new JButton("Reset");
 		pButtonArea.add(btnGenerate);
 		ActionListener listenerGenerate = new ActionListener() {
@@ -106,8 +119,8 @@ public class View implements IView, ComponentListener {
 		};
 		btnGenerate.addActionListener(listenerGenerate);
 
-
-		// maak de simulate-knop en roep de methode doeSimuleer() aan als op deze
+		// maak de simulate-knop en roep de methode doeSimuleer() aan als op
+		// deze
 		// knop wordt gedrukt
 		JButton btnSimulate = new JButton("Simuleer");
 		pButtonArea.add(btnSimulate);
@@ -117,13 +130,50 @@ public class View implements IView, ComponentListener {
 			}
 
 		};
-		
+
 		btnGenerate.addActionListener(listenerSimulate);
 
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
 		content.add(dpTekenGebied, BorderLayout.CENTER);
 
+		MouseListener muis = new MouseListener() {
+			// Als op de muis wordt geklikt, controleer dan op welke muisknop
+			// (rechts of links) er wordt geklikt en roep de bijbehorende
+			// methode aan
+			public void mouseClicked(MouseEvent e) {
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					// TO DO: rij en kolom uitrekenen
+					controller.toggleBoswachter(1, 2);
+				}
+				if (SwingUtilities.isRightMouseButton(e)) {
+					// TO DO: rij en kolom uitrekenen
+					controller.toggleBoswachter(1, 2);
+				}
+			}
+
+			public void mousePressed(MouseEvent e) {
+				// TO DO: beeld mee laten bewegen met de cursor
+			}
+			
+			public void mouseReleased(MouseEvent e){
+				// TO DO: methode schrijven die verantwoordelijk is voor het
+				// verplaatsen van het venster bij slepen. Die methode hier
+				// aanroepen op controller
+			}
+			
+			public void mouseEntered(MouseEvent e){
+				// volgens mij hoeven we hier niks mee
+			}
+			
+			public void mouseExited(MouseEvent e){
+				// volgens mij hoeven we hier niks mee
+			}
+			
+		};
+
+		dpTekenGebied.addMouseListener(muis);
+		
 		// TODO: voeg een mouseListener en een mouseMotionListener toe voor het
 		// panel om op te tekenen
 	}
