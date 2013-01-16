@@ -10,6 +10,7 @@ import bosbrand.model.*;
 public class Controller implements IController {
 
 	private IBosbrandModel grond;
+	private IView view;
 	private ActionListener listener;
 	private Timer displayTimer;
 	private boolean timerRunning;
@@ -23,13 +24,13 @@ public class Controller implements IController {
 		timerRunning = false;
 		grond = new Grond();
 		grond.initialiseer(wereld);
-		afbeelden();
 		listener = new ActionListener(){
 			public void actionPerformed(ActionEvent event){
 				doen();
 			}
 		};
 		displayTimer = new Timer(100, listener);
+		view = new View(this);
 	}
 
 	/**
@@ -54,6 +55,7 @@ public class Controller implements IController {
 	 */
 	private void doen() {
 		grond.update();
+		//afbeelden();
 		// TODO even checken wat ie nog meer moet doen. (Veld updaten bijvoobeeld?
 	}
 	
@@ -62,11 +64,12 @@ public class Controller implements IController {
 	 */
 	public void doeSimuleer() {
 		if (!timerRunning) {
-			timerRunning = true;
 			displayTimer.start();
+			timerRunning = true;
 		}
 		else if (timerRunning) {
 			displayTimer.stop();
+			timerRunning = false;
 		}
 	}
 
@@ -81,6 +84,7 @@ public class Controller implements IController {
 		//De randgevallen skipt ie.
 		for (int r=0;r<kavels.length;r++) {
 			for (int c=0;c<kavels[r].length;c++) {
+				System.out.println("In brand? "+kavels[r][c].voortBranden());
 				if (kavels[r][c] instanceof LeegKavel) {
 					IAfbeeldbaar af = new Afbeeldbaar(r , c, 'B');
 					afb.add(af);
@@ -90,7 +94,7 @@ public class Controller implements IController {
 						IAfbeeldbaar af = new Afbeeldbaar(r , c, 'R');
 						afb.add(af);
 					}
-					else if (!kavels[r][c].voortBranden()){
+					else if (!(kavels[r][c].voortBranden())){
 						IAfbeeldbaar af = new Afbeeldbaar(r , c, 'G');
 						afb.add(af);
 					}
@@ -98,11 +102,14 @@ public class Controller implements IController {
 			}
 		}
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
-		// TODO afbeelden() in VIew aanroepen
+		//view.afbeelden(afbeeldData);
+		IAfbeeldbaar[] afbeeldTest = new Afbeeldbaar[1];
+		afbeeldTest[0] = new Afbeeldbaar(10,10,'G');
+		view.afbeelden(afbeeldTest);
 	}
 
 	public void toggleBoswachter(int rij, int kolom) {
-		// TODO Bepalen waar we Action Event handling gaan doen.
+		// TODO Bepalen waar we Event handling gaan doen.
 		// TODO aan de hand van de positie van de muis lokatie bepalen en toggleBoswachter in Grond aanroepen op die positie.
 
 	}

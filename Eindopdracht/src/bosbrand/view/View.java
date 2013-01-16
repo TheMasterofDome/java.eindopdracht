@@ -36,22 +36,16 @@ public class View implements IView, ComponentListener {
 	}
 
 	/**
-	 * middelpunt
-	 * 
-	 * @return een java.awt.Point object dat het midden van het af te beelden
-	 *         gebied weergeeft.
+	 * middelpunt van het venster.
+	 * @return een java.awt.Point object dat het midden van het af te beelden gebied weergeeft.
 	 */
 	public Point getMidden() {
-		
 		return midden;
 	}
 
 	/**
-	 * geef middenpunt
-	 * 
-	 * @param een
-	 *            java.awt.Point object dat het midden van het af te beelden
-	 *            gebied weergeeft.
+	 * stel middenpunt in
+	 * @param een java.awt.Point object dat het midden van het af te beelden gebied weergeeft.
 	 */
 	public void setMidden(Point midden) {
 		this.midden = midden;
@@ -64,12 +58,14 @@ public class View implements IView, ComponentListener {
 	 * @param afTeBeeldenData
 	 *            een array met afbeeldbare data
 	 */
-	public void afbeelden(IAfbeeldbaar[] afTeBeeldenData) {
-		// TODO: maak het tekenpanel leeg
-
-		// TODO: loop door de array met data, en beeld elk element correct af op
-		// het tekenpanel met behulp
-		// van de tekenRechthoek-methode
+	public void afbeelden(IAfbeeldbaar[] afTeBeeldenData) {		
+		//Venster leegmaken
+		dpTekenGebied.leegmaken();
+		
+		//Loop door de array en beeld elk kavel af met behulp van zijn Afbeeldbaar object.
+		for (IAfbeeldbaar beelden: afTeBeeldenData) {
+			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), beelden.getZijde(), beelden.getZijde(), beelden.getColor());
+		}
 
 		// beeld het tekenpanel opnieuw af
 		dpTekenGebied.repaint();

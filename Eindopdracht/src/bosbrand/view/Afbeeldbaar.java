@@ -24,7 +24,7 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 		else if (c == 'G') {
 			return Color.green;
 		}
-		return Color.yellow;
+		else return Color.yellow;
 	}
 
 	public Color getColor() {

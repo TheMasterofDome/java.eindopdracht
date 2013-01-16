@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class TekenPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// buffered image waarop getekend wordt
 	private BufferedImage bImage;
 	
@@ -22,7 +26,8 @@ public class TekenPanel extends JPanel {
 	 * maakt het panel leeg door gewoon een nieuwe bufferedimage aan te maken
 	 */
 	void leegmaken() {
-		bImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		//getWidth() en getLength() werken niet!!
+		bImage = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
 	}
 	
 	/**
