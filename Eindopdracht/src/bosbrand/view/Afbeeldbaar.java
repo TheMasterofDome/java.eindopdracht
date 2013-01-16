@@ -12,7 +12,7 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	
 	public Afbeeldbaar(int x, int y, char kleur) {
 		color = kleur;
-		zijde = 50;
+		zijde = 10;
 		this.x = x;
 		this.y = y;
 	}
