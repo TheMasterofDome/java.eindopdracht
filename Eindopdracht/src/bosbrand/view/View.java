@@ -1,6 +1,8 @@
 package bosbrand.view;
 
 import bosbrand.controller.*;
+import bosbrand.model.Grond;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,7 +33,7 @@ public class View implements IView, ComponentListener/*, MouseListener, MouseMot
 		screenWidth = 1024;
 		screenHeight = 768;
 		midden = new Point();
-		
+
 		setMidden(midden);
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -53,13 +55,16 @@ public class View implements IView, ComponentListener/*, MouseListener, MouseMot
 	}
 
 	/**
-	 * De breedte is de breedte van het venster minus 102 pixels, wat in de praktijk de breedte van de Box met JButtons is, gedeeld door twee.
-	 * De hoogte s de hoogte van het venster gedeeld door twee.
-	 * @param een java.awt.Point.
+	 * De breedte is de breedte van het venster minus 102 pixels, wat in de
+	 * praktijk de breedte van de Box met JButtons is, gedeeld door twee. De
+	 * hoogte s de hoogte van het venster gedeeld door twee.
+	 * 
+	 * @param een
+	 *            java.awt.Point.
 	 */
 	public void setMidden(Point midden) {
-		double width = (1024-102)/2;
-		double height = 768/2;
+		int width = (1024 - 102) / 2;
+		int height = 768 / 2;
 		midden.setLocation(width, height);
 	}
 
@@ -77,7 +82,8 @@ public class View implements IView, ComponentListener/*, MouseListener, MouseMot
 		// Loop door de array en beeld elk kavel af met behulp van zijn
 		// Afbeeldbaar object.
 		for (IAfbeeldbaar beelden : afTeBeeldenData) {
-			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), beelden.getZijde(), beelden.getZijde(), beelden.getColor());
+			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(),
+					beelden.getZijde(), beelden.getZijde(), beelden.getColor());
 		}
 
 		// beeld het tekenpanel opnieuw af
@@ -144,15 +150,28 @@ public class View implements IView, ComponentListener/*, MouseListener, MouseMot
 		MouseListener muis = new MouseListener() {
 			// Als op de muis wordt geklikt, controleer dan op welke muisknop
 			// (rechts of links) er wordt geklikt en roep de bijbehorende
-			// methode aan
+			// methode aan. De methodes worden aangeroepen op rij en kolom,
+			// welke worden berekend adhv het coördinaat waarop geklikt wordt
 			public void mouseClicked(MouseEvent e) {
-				int rij = e.getY() / Afbeeldbaar.zijde;
-				int kolom = e.getX() / Afbeeldbaar.zijde;
+				int breedteVak = ((Controller) controller)
+						.berekenAantalKavelsBreedte();
+				System.out.println("aantal kavels in breedte is " + breedteVak);
+				int lengteVak = ((Controller) controller)
+						.berekenAantalKavelsLengte();
+				System.out.println("aantal kavels in lengte is " + lengteVak);
+
+				double linkerGrensVenster = midden.getX() - ((breedteVak/2)*Afbeeldbaar.zijde);
+				System.out.println("grens venster links is " + linkerGrensVenster);
+				double bovenGrensVenster = midden.getY() - ((lengteVak/2)*Afbeeldbaar.zijde);
+				System.out.println("grens venster boven is " + bovenGrensVenster);
+				
+				int kolom = (int) ((e.getX() - linkerGrensVenster)/2);
+				int rij = (int) ((e.getY() - bovenGrensVenster)/2);
+				
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					System.out.println("X: "+e.getX()+"Y: "+e.getY());
+					System.out.println("X: " + e.getX() + "Y: " + e.getY());
 					controller.toggleBoswachter(rij, kolom);
-				}
-				else if (SwingUtilities.isRightMouseButton(e)){
+				} else if (SwingUtilities.isRightMouseButton(e)) {
 					controller.toggleVuur(rij, kolom);
 				}
 			}
