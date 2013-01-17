@@ -90,22 +90,10 @@ public class Controller implements IController {
 		//De randgevallen skipt ie.
 		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
 		//Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende coordinaten meegeven.
-<<<<<<< HEAD
 		int y = (int) setStartpunt().getY();
-=======
-		int y = 0;
-		
-		//int y = (int) view.getMidden().getY();
->>>>>>> branch 'master' of https://github.com/TheMasterofDome/java.eindopdracht.git
 		for (int r=0;r<kavels.length;r++) {
-<<<<<<< HEAD
 			int x = (int) setStartpunt().getX();
-=======
-			int x = 0;
-			// int x = (int) view.getMidden().getX();
->>>>>>> branch 'master' of https://github.com/TheMasterofDome/java.eindopdracht.git
 			for (int c=0;c<kavels[r].length;c++) {
-				
 				if (kavels[r][c] instanceof LeegKavel) {
 					af = new Afbeeldbaar(x , y, 'B');
 				}
