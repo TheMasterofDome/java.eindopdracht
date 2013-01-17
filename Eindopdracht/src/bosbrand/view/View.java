@@ -128,21 +128,41 @@ public class View implements IView, ComponentListener {
 			// methode aan. De methodes worden aangeroepen op rij en kolom,
 			// welke worden berekend adhv het coördinaat waarop geklikt wordt
 			public void mouseClicked(MouseEvent e) {
-				int breedteVak = ((Controller) controller)
-						.berekenAantalKavelsBreedte();
-				System.out.println("aantal kavels in breedte is " + breedteVak);
-				int lengteVak = ((Controller) controller)
-						.berekenAantalKavelsLengte();
-				System.out.println("aantal kavels in lengte is " + lengteVak);
+				System.out.println("X-coördinaat muisklik: " + e.getX());
+				System.out.println("Y-coördinaat muisklik: " + e.getY());
 
-				double linkerGrensVenster = midden.getX() - ((breedteVak/2)*Afbeeldbaar.zijde);
-				System.out.println("grens venster links is " + linkerGrensVenster);
-				double bovenGrensVenster = midden.getY() - ((lengteVak/2)*Afbeeldbaar.zijde);
-				System.out.println("grens venster boven is " + bovenGrensVenster);
-				
-				int kolom = (int) ((e.getX() - linkerGrensVenster)/2);
-				int rij = (int) ((e.getY() - bovenGrensVenster)/2);
-				
+				System.out.println("X-coördinaat midden: " + midden.getX());
+				System.out.println("Y-coördinaat midden: " + midden.getY());
+				double kavelsInBreedte = ((Controller) controller)
+						.berekenAantalKavelsBreedte();
+				System.out.println("aantal kavels in breedte is "
+						+ kavelsInBreedte);
+				double kavelsInLengte = ((Controller) controller)
+						.berekenAantalKavelsLengte();
+				System.out.println("aantal kavels in lengte is "
+						+ kavelsInLengte);
+
+				double linkerGrensVenster = midden.getX()
+						- ((kavelsInBreedte / 2.0) * Afbeeldbaar.zijde);
+				System.out.println("kavels in breedte / 2: " + kavelsInBreedte
+						/ 2.0);
+				System.out.println("grens venster links is "
+						+ linkerGrensVenster);
+				double bovenGrensVenster = midden.getY()
+						- ((kavelsInLengte / 2.0) * Afbeeldbaar.zijde);
+				System.out.println("kavels in lengte / 2: " + kavelsInLengte
+						/ 2.0);
+				System.out.println("grens venster boven is "
+						+ bovenGrensVenster);
+
+				int kolom = (int) ((e.getX() - linkerGrensVenster) / Afbeeldbaar.zijde);
+				System.out.println();
+
+				System.out.println("kolom is " + kolom);
+				int rij = (int) ((e.getY() - bovenGrensVenster) / Afbeeldbaar.zijde);
+
+				System.out.println("rij is " + rij);
+
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					System.out.println("X: " + e.getX() + "Y: " + e.getY());
 					controller.toggleBoswachter(rij, kolom);

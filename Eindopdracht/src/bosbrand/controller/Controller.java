@@ -33,7 +33,7 @@ public class Controller implements IController {
 				doen();
 			}
 		};
-		displayTimer = new Timer(1000, listener);
+		displayTimer = new Timer(3000, listener);
 		view = new View(this);
 		setStartpunt(0,0);
 		startpunt = new Point(getStartpunt());
