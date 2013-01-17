@@ -34,7 +34,7 @@ public class Controller implements IController {
 				doen();
 			}
 		};
-		displayTimer = new Timer(3000, listener);
+		displayTimer = new Timer(100, listener);
 		view = new View(this);
 		midden = new Point((int) view.getMidden().getX(), (int) view.getMidden().getY());
 		setStartpunt(0,0);

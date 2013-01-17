@@ -27,7 +27,7 @@ public class TekenPanel extends JPanel {
 	 */
 	void leegmaken() {
 		//getWidth() en getLength() werken niet!!
-		bImage = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
+		bImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 	}
 	
 	/**
