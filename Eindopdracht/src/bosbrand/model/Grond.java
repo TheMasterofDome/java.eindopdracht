@@ -67,6 +67,7 @@ public class Grond implements IBosbrandModel {
 	 * hij de boom in brand en andersom. Als de kavel leeg is gebeurt er niets.
 	 */
 	public void toggleVuur(int rij, int kolom) {
+		System.out.println("roep vuur aan");
 		if (kavels[rij][kolom].voortBranden()) {
 			if (kavels[rij][kolom] instanceof AppelBoom) {
 				kavels[rij][kolom] = new AppelBoom(Boom.NIET_IN_BRAND);
@@ -90,6 +91,7 @@ public class Grond implements IBosbrandModel {
 	 * Methode om de boswachter op een positie te plaatsen of weg te halen.
 	 */
 	public void toggleBoswachter(int rij, int kolom) {
+		System.out.println("roep boswachter aan");
 		if (posBoswachters[rij][kolom] instanceof Boswachter) {
 			posBoswachters[rij][kolom] = null;
 		} else

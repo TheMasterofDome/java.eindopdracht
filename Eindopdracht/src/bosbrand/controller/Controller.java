@@ -29,7 +29,7 @@ public class Controller implements IController {
 				doen();
 			}
 		};
-		displayTimer = new Timer(100, listener);
+		displayTimer = new Timer(1000, listener);
 		view = new View(this);
 	}
 
@@ -88,9 +88,12 @@ public class Controller implements IController {
 		//De randgevallen skipt ie.
 		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
 		//Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende coordinaten meegeven.
-		int y = (int) view.getMidden().getY();
+		int y = 0;
+		
+		//int y = (int) view.getMidden().getY();
 		for (int r=0;r<kavels.length;r++) {
-			int x = (int) view.getMidden().getX();
+			int x = 0;
+			// int x = (int) view.getMidden().getX();
 			for (int c=0;c<kavels[r].length;c++) {
 				
 				if (kavels[r][c] instanceof LeegKavel) {
