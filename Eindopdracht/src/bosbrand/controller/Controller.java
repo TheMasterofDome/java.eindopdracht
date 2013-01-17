@@ -16,6 +16,7 @@ public class Controller implements IController {
 	private Timer displayTimer;
 	private boolean timerRunning;
 	private IAfbeeldbaar af;
+	private Point startpunt;
 	
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
@@ -34,6 +35,8 @@ public class Controller implements IController {
 		};
 		displayTimer = new Timer(1000, listener);
 		view = new View(this);
+		setStartpunt(0,0);
+		startpunt = new Point(getStartpunt());
 	}
 
 	/**
@@ -90,9 +93,9 @@ public class Controller implements IController {
 		//De randgevallen skipt ie.
 		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
 		//Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende coordinaten meegeven.
-		int y = (int) setStartpunt().getY();
+		int y = (int) getStartpunt().getY();
 		for (int r=0;r<kavels.length;r++) {
-			int x = (int) setStartpunt().getX();
+			int x = (int) getStartpunt().getX();
 			for (int c=0;c<kavels[r].length;c++) {
 				if (kavels[r][c] instanceof LeegKavel) {
 					af = new Afbeeldbaar(x , y, 'B');
@@ -120,7 +123,7 @@ public class Controller implements IController {
 	 * In de praktijk werkt dit nog niet in verticale richting door een onbekende fout in een van de tekenmethodes (die niet van ons zijn).
 	 * @return een Java Point met de coördinaten.
 	 */
-	private Point setStartpunt() {
+	public void setStartpunt(int newX, int newY) {
 		double x = view.getMidden().getX();
 		double y = view.getMidden().getY();
 		
@@ -132,7 +135,14 @@ public class Controller implements IController {
 		Double startX = x - xOffsetKavel;
 		Double startY = y - yOffsetKavel;
 		
-		return new Point (startX.intValue(), startY.intValue());
+		startX = startX - newX;
+		startY = startY - newY;
+		
+		startpunt = new Point (startX.intValue(), startY.intValue());
+	}
+	
+	private Point getStartpunt() {
+		return startpunt;
 	}
 
 	/**
