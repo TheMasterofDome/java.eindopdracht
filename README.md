@@ -11,4 +11,4 @@ TODO-LIJST
 
 DEBUG-LIJST
 
-- 
+- index-out-of-bound exception wanneer geen vierkant in wordt gevoerd. Bij rechthoek gaat het dus ook fout.
