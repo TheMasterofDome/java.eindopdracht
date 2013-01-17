@@ -11,8 +11,6 @@ public class View implements IView, ComponentListener {
 	private int screenWidth;
 	private int screenHeight;
 
-	private int btnWidth;
-
 	// het punt dat het middelpunt moet worden van het af te beelden venster
 	Point midden;
 	// het feitelijke venster
