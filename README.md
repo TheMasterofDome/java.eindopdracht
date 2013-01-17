@@ -5,7 +5,6 @@ EIndopdracht voor Java Programmeren. Thomas en Irene.
 
 TODO-LIJST
 
--	Slepen minder gevoelig maken
 - Boswachters toevoegen
 
 DEBUG-LIJST
