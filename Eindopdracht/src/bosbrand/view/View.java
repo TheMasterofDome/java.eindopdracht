@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class View implements IView, ComponentListener, MouseListener, MouseMotionListener {
+public class View implements IView, ComponentListener/*, MouseListener, MouseMotionListener */{
 	private int screenWidth;
 	private int screenHeight;
 
@@ -253,7 +253,7 @@ public class View implements IView, ComponentListener, MouseListener, MouseMotio
 		// BONUS: voeg code toe om netjes te kunnen roteren
 	}
 
-	@Override
+	/*@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
@@ -293,5 +293,5 @@ public class View implements IView, ComponentListener, MouseListener, MouseMotio
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 }
