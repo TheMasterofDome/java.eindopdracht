@@ -9,4 +9,6 @@ TODO-LIJST
 
 DEBUG-LIJST
 
-- LEEEEEEEG OLÉÉÉÉÉÉ!!!!!
+- NEE NIET HELEMAAAAAL :(
+- Prints uit View weg?
+- (Bij random grond) Hij loopt soms na een tijdje vast als je een aantal kavels getoggled hebt.
