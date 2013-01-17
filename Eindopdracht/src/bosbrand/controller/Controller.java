@@ -17,6 +17,7 @@ public class Controller implements IController {
 	private boolean timerRunning;
 	private IAfbeeldbaar af;
 	private Point startpunt;
+	private Point midden;
 	
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
@@ -35,6 +36,7 @@ public class Controller implements IController {
 		};
 		displayTimer = new Timer(3000, listener);
 		view = new View(this);
+		midden = new Point((int) view.getMidden().getX(), (int) view.getMidden().getY());
 		setStartpunt(0,0);
 		startpunt = new Point(getStartpunt());
 	}
@@ -124,19 +126,23 @@ public class Controller implements IController {
 	 * @return een Java Point met de coördinaten.
 	 */
 	public void setStartpunt(int newX, int newY) {
-		double x = view.getMidden().getX();
-		double y = view.getMidden().getY();
+		//Hij is zo gevoelig omdat hij steeds vanaf het midden rekent, ook als hij al verplaatst is.
+		//Op te lossen door het nieuwe midden te berekenen vanaf het nieuwe startpunt mbv het aantal kavels.
 		
-		double 	xOffsetKavel = grond.getKavels()[0].length / 2.0;
-				xOffsetKavel = xOffsetKavel * af.getZijde();
-		double 	yOffsetKavel = grond.getKavels().length / 2.0;
-				yOffsetKavel = yOffsetKavel * af.getZijde();
+		//De afstand van het midden van kavels[][] tot de grens van grond.
+		double 	xOffsetKavel = (grond.getKavels()[0].length / 2.0) * af.getZijde();
+		double 	yOffsetKavel = (grond.getKavels().length / 2.0) * af.getZijde();
 				
-		Double startX = x - xOffsetKavel;
-		Double startY = y - yOffsetKavel;
+		//Het nieuwe startpunt
+		Double startX = midden.getX() - xOffsetKavel;
+		Double startY = midden.getY() - yOffsetKavel;
 		
+		//Het nieuwe startpunt met verplaatsing
 		startX = startX - newX;
 		startY = startY - newY;
+		
+		//Het nieuwe middelpunt berekenen na verplaatsing.
+		midden = new Point((int) (startX + xOffsetKavel), (int) (startY + yOffsetKavel));
 		
 		startpunt = new Point (startX.intValue(), startY.intValue());
 	}
