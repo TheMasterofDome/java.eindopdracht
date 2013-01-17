@@ -9,5 +9,4 @@ TODO-LIJST
 
 DEBUG-LIJST
 
-- bij een random aanroep van grond werkt toggleVuur niet
-- getWidth() en getHeight() in leegmaken() van TekenPanel werken niet.
+- LEEEEEEEG OLÉÉÉÉÉÉ!!!!!
