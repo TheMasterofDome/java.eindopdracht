@@ -1,6 +1,7 @@
 package bosbrand.controller;
 
 import java.awt.event.*;
+import java.awt.*;
 import java.util.*;
 import javax.swing.Timer;
 
@@ -14,6 +15,7 @@ public class Controller implements IController {
 	private ActionListener listener;
 	private Timer displayTimer;
 	private boolean timerRunning;
+	private IAfbeeldbaar af;
 	
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
@@ -22,6 +24,7 @@ public class Controller implements IController {
 	 */
 	public Controller(String[] wereld) {
 		timerRunning = false;
+		af = new Afbeeldbaar(0,0,' ');
 		grond = new Grond();
 		grond.initialiseer(wereld);
 		listener = new ActionListener(){
@@ -82,15 +85,14 @@ public class Controller implements IController {
 	public void afbeelden() {
 		IKavel[][] kavels = grond.getKavels();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
-		IAfbeeldbaar af = new Afbeeldbaar(0,0,' ');
 		
 		//Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand staat of leeg is.
 		//De randgevallen skipt ie.
 		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
 		//Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende coordinaten meegeven.
-		int y = (int) view.getMidden().getY();
+		int y = (int) setStartpunt().getY();
 		for (int r=0;r<kavels.length;r++) {
-			int x = (int) view.getMidden().getX();
+			int x = (int) setStartpunt().getX();
 			for (int c=0;c<kavels[r].length;c++) {
 				
 				if (kavels[r][c] instanceof LeegKavel) {
@@ -112,6 +114,26 @@ public class Controller implements IController {
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
 		//view.afbeelden(afbeeldData);
 		view.afbeelden(afbeeldData);
+	}
+	
+	/**
+	 * Deze methode berekent op welk punt moet worden begonnen met afdrukken om de grond mooi in het midden te hebben.
+	 * In de praktijk werkt dit nog niet in verticale richting door een onbekende fout in een van de tekenmethodes (die niet van ons zijn).
+	 * @return een Java Point met de coördinaten.
+	 */
+	private Point setStartpunt() {
+		double x = view.getMidden().getX();
+		double y = view.getMidden().getY();
+		
+		double 	xOffsetKavel = grond.getKavels()[0].length / 2.0;
+				xOffsetKavel = xOffsetKavel * af.getZijde();
+		double 	yOffsetKavel = grond.getKavels().length / 2.0;
+				yOffsetKavel = yOffsetKavel * af.getZijde();
+				
+		Double startX = x - xOffsetKavel;
+		Double startY = y - yOffsetKavel;
+		
+		return new Point (startX.intValue(), startY.intValue());
 	}
 
 	/**

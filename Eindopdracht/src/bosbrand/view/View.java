@@ -8,8 +8,6 @@ import java.awt.event.*;
 public class View implements IView, ComponentListener {
 	private int screenWidth;
 	private int screenHeight;
-	
-	private int btnWidth;
 
 	// het punt dat het middelpunt moet worden van het af te beelden venster
 	Point midden;
@@ -60,8 +58,8 @@ public class View implements IView, ComponentListener {
 	 * @param een java.awt.Point.
 	 */
 	public void setMidden(Point midden) {
-		int width = (1024-102)/2;
-		int height = 768/2;
+		double width = (1024-102)/2;
+		double height = 768/2;
 		midden.setLocation(width, height);
 	}
 

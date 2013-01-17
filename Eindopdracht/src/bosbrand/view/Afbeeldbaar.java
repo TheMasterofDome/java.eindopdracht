@@ -17,7 +17,7 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	}
 
 	/**
-	 * Mehtod eom de kleur te bepalen aan de hand van de meegegeven letterwaarde.
+	 * Mehtode om de kleur te bepalen aan de hand van de meegegeven letterwaarde.
 	 */
 	public Color getColor() {
 		Color kleurtje;

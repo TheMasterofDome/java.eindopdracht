@@ -7,6 +7,8 @@ import java.awt.Color;
  * view. Denk bijvoorbeeld aan een kleur en een positie.
  */
 public interface IAfbeeldbaar {
+	
+	
 
 	/**
 	 * Deze methode geeft de kleur van het af te beelden object.
