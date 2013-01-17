@@ -6,6 +6,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class View implements IView, ComponentListener {
+	private int screenWidth;
+	private int screenHeight;
+	
+	private int btnWidth;
 
 	// het punt dat het middelpunt moet worden van het af te beelden venster
 	Point midden;
@@ -26,6 +30,11 @@ public class View implements IView, ComponentListener {
 	 */
 	public View(IController controller) {
 		this.controller = controller;
+		screenWidth = 1024;
+		screenHeight = 768;
+		midden = new Point();
+		
+		setMidden(midden);
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -47,13 +56,10 @@ public class View implements IView, ComponentListener {
 
 	/**
 	 * stel middenpunt in
-	 * 
-	 * @param een
-	 *            java.awt.Point object dat het midden van het af te beelden
-	 *            gebied weergeeft.
+	 * @param een java.awt.Point object dat het midden van het af te beelden gebied weergeeft.
 	 */
 	public void setMidden(Point midden) {
-		this.midden = midden;
+		midden.setLocation(((screenWidth-btnWidth)/2), (screenHeight/2));
 	}
 
 	/**
@@ -70,8 +76,7 @@ public class View implements IView, ComponentListener {
 		// Loop door de array en beeld elk kavel af met behulp van zijn
 		// Afbeeldbaar object.
 		for (IAfbeeldbaar beelden : afTeBeeldenData) {
-			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(),
-					beelden.getZijde(), beelden.getZijde(), beelden.getColor());
+			dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), beelden.getZijde(), beelden.getZijde(), beelden.getColor());
 		}
 
 		// beeld het tekenpanel opnieuw af
@@ -131,10 +136,17 @@ public class View implements IView, ComponentListener {
 
 		};
 		btnSimulate.addActionListener(listenerSimulate);
+		btnSimulate.setSize(50, 10);
 
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
 		content.add(dpTekenGebied, BorderLayout.CENTER);
+		
+		
+		
+		//Zet de breedte van de grootste button in een int.
+		btnWidth = btnSimulate.getWidth();
+		System.out.println(btnWidth);
 
 		MouseListener muis = new MouseListener() {
 			// Als op de muis wordt geklikt, controleer dan op welke muisknop
@@ -184,7 +196,7 @@ public class View implements IView, ComponentListener {
 	 * Geeft het frame een initiële grootte en maakt het zichtbaar.
 	 */
 	private void showUI() {
-		jfMainFrame.setSize(1024, 768);
+		jfMainFrame.setSize(screenWidth, screenHeight);
 		jfMainFrame.setVisible(true);
 	}
 

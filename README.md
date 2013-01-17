@@ -12,6 +12,4 @@ TODO-LIJST
 
 DEBUG-LIJST
 
-- Geen groene hokjes worden afgebeeld
-- Buttons werkend krijgen
-- IndexOutofBounds error bij grond.initialiseer (soms)
+- 
