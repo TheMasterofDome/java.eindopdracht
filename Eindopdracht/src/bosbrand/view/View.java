@@ -55,11 +55,14 @@ public class View implements IView, ComponentListener {
 	}
 
 	/**
-	 * stel middenpunt in
-	 * @param een java.awt.Point object dat het midden van het af te beelden gebied weergeeft.
+	 * De breedte is de breedte van het venster minus 102 pixels, wat in de praktijk de breedte van de Box met JButtons is, gedeeld door twee.
+	 * De hoogte s de hoogte van het venster gedeeld door twee.
+	 * @param een java.awt.Point.
 	 */
 	public void setMidden(Point midden) {
-		midden.setLocation(((screenWidth-btnWidth)/2), (screenHeight/2));
+		int width = (1024-102)/2;
+		int height = 768/2;
+		midden.setLocation(width, height);
 	}
 
 	/**
@@ -136,17 +139,9 @@ public class View implements IView, ComponentListener {
 
 		};
 		btnSimulate.addActionListener(listenerSimulate);
-		btnSimulate.setSize(50, 10);
-
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
 		content.add(dpTekenGebied, BorderLayout.CENTER);
-		
-		
-		
-		//Zet de breedte van de grootste button in een int.
-		btnWidth = btnSimulate.getWidth();
-		System.out.println(btnWidth);
 
 		MouseListener muis = new MouseListener() {
 			// Als op de muis wordt geklikt, controleer dan op welke muisknop
@@ -156,11 +151,9 @@ public class View implements IView, ComponentListener {
 				int rij = e.getY() / Afbeeldbaar.zijde;
 				int kolom = e.getX() / Afbeeldbaar.zijde;
 				if (SwingUtilities.isLeftMouseButton(e)) {
-
+					System.out.println("X: "+e.getX()+"Y: "+e.getY());
 					controller.toggleBoswachter(rij, kolom);
-
 				}
-
 				else if (SwingUtilities.isRightMouseButton(e)){
 					controller.toggleVuur(rij, kolom);
 				}
