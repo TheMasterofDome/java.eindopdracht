@@ -153,15 +153,21 @@ public class View implements IView, ComponentListener {
 			// methode aan. De methodes worden aangeroepen op rij en kolom,
 			// welke worden berekend adhv het coördinaat waarop geklikt wordt
 			public void mouseClicked(MouseEvent e) {
+				int breedteVak = ((Controller) controller)
+						.berekenAantalKavelsBreedte();
+				System.out.println("aantal kavels in breedte is " + breedteVak);
+				int lengteVak = ((Controller) controller)
+						.berekenAantalKavelsLengte();
+				System.out.println("aantal kavels in lengte is " + lengteVak);
+
+				double linkerGrensVenster = midden.getX() - ((breedteVak/2)*Afbeeldbaar.zijde);
+				System.out.println("grens venster links is " + linkerGrensVenster);
+				double bovenGrensVenster = midden.getY() - ((lengteVak/2)*Afbeeldbaar.zijde);
+				System.out.println("grens venster boven is " + bovenGrensVenster);
 				
-				int breedteVak = ((Controller) controller).berekenBreedteVak();
-				int lenteVak = ((Controller) controller).berekenLengteVak();
-			
-				double afstandTotMiddenRij = Math.abs(e.getY() - midden.getY());
+				int kolom = (int) ((e.getX() - linkerGrensVenster)/2);
+				int rij = (int) ((e.getY() - bovenGrensVenster)/2);
 				
-				
-				int rij = e.getY() / Afbeeldbaar.zijde;
-				int kolom = e.getX() / Afbeeldbaar.zijde;
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					System.out.println("X: " + e.getX() + "Y: " + e.getY());
 					controller.toggleBoswachter(rij, kolom);

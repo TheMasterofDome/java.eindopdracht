@@ -153,14 +153,15 @@ public class Controller implements IController {
 		grond.toggleVuur(rij, kolom);
 	}
 	
-	public int berekenBreedteVak(){
-		int breedte = grond.getKavels()[0].length;
-		return breedte;
+	public int berekenAantalKavelsBreedte(){
+		int aantalKavels = grond.getKavels()[0].length;
+		return aantalKavels;
+		
 	}
 	
-	public int berekenLengteVak(){
-		int lengte = grond.getKavels().length;
-		return lengte;
+	public int berekenAantalKavelsLengte(){
+		int aantalKavels = grond.getKavels().length;
+		return aantalKavels;
 	}
 
 }
