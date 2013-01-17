@@ -18,6 +18,8 @@ private static String[] s;
 			testInput(args);
 			s = args;
 		}
+		//Controller object aanmaken, waarmee het programma gestart wordt.
+		@SuppressWarnings("unused")
 		IController control = new Controller(s);
 	}
 	
