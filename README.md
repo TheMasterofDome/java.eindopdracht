@@ -9,4 +9,4 @@ TODO-LIJST
 
 DEBUG-LIJST
 
-- bij een random aanroep van grond werkt toggleVuur niet
+- LEEEEEEEG OLÉÉÉÉÉÉ!!!!!
