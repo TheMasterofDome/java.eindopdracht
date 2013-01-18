@@ -33,10 +33,10 @@ public class Boswachter implements IBoswachter {
 		return kolom;
 	}
 
-	/**
-	 * doof alle branden om de boswachter heen, en laat hem een actie uitvoeren
-	 * om effectief volgende branden te bestrijden.
-	 */
+	// In deze methode dooft de boswachter alle brandende bomen om hem heen. Als
+	// er geen brandende bomen om de boswachter heen staan, dan zet de
+	// boswachter 1 stap in de richting van de brandende boom die in het minst
+	// aantal stappen te bereiken is.
 	public void update() {
 
 		// het aantal gebluste bomen wordt opgevraagd mbv de methode
@@ -49,6 +49,8 @@ public class Boswachter implements IBoswachter {
 
 		if (aantalGeblusteBomen == 0) {
 
+			// deze dichtstbijzijnde brandende boom moet eerst worden gezocht
+			// mbv de methode findClosestTree().
 			findClosestTree();
 
 			rij = veranderRij();
