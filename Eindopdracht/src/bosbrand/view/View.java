@@ -1,6 +1,8 @@
 package bosbrand.view;
 
 import bosbrand.controller.*;
+import bosbrand.model.Grond;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -132,6 +134,16 @@ public class View implements IView, ComponentListener {
 
 		};
 		btnSimulate.addActionListener(listenerSimulate);
+
+		/*
+		 * JButton btnStep = new JButton("Step"); pButtonArea.add(btnStep);
+		 * ActionListener listenerStep = new ActionListener() { public void
+		 * actionPerformed(ActionEvent event) { ((Controller)
+		 * controller).doen(); }
+		 * 
+		 * }; btnSimulate.addActionListener(listenerStep);
+		 */
+
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
 		content.add(dpTekenGebied, BorderLayout.CENTER);
@@ -143,29 +155,65 @@ public class View implements IView, ComponentListener {
 			// welke worden berekend adhv het coördinaat waarop geklikt wordt
 			public void mouseClicked(MouseEvent e) {
 
+				// het aantal kavels in de breedte en lengte hebben we nodig om
+				// te berekenen hoe lang de grond is vanaf het midden. Vanaf het
+				// midden, omdat de kavels vanuit het midden worden afgebeeld.
 				double kavelsInBreedte = ((Controller) controller)
 						.berekenAantalKavelsBreedte();
 
 				double kavelsInLengte = ((Controller) controller)
 						.berekenAantalKavelsLengte();
 
+				// aan de hand van het aantal kavels in lengte/breedte en de
+				// lengte en breedte van een kavel (beiden 50) kunnen de
+				// coördinaten van de linker-, rechter-, onder- en bovengrens
+				// worden berekend.
 				double linkerGrensVenster = midden.getX()
 						- ((kavelsInBreedte / 2.0) * Afbeeldbaar.zijde);
+
+				double rechterGrensVenster = midden.getX()
+						+ ((kavelsInBreedte / 2.0) * Afbeeldbaar.zijde);
 
 				double bovenGrensVenster = midden.getY()
 						- ((kavelsInLengte / 2.0) * Afbeeldbaar.zijde);
 
-				int kolom = (int) ((e.getX() - linkerGrensVenster) / Afbeeldbaar.zijde);
+				double onderGrensVenster = midden.getX()
+						+ ((kavelsInLengte / 2.0) * Afbeeldbaar.zijde);
 
-				int rij = (int) ((e.getY() - bovenGrensVenster) / Afbeeldbaar.zijde);
+				// aan de hand van deze coördinaten wordt getest of de muisklik
+				// wel binnen de getekende grond valt. Als dit niet het geval
+				// is, dan wordt de huidige grond opnieuw afgebeeld; er
+				// verandert dus niets.
 
-				if (SwingUtilities.isLeftMouseButton(e)) {
-
-					controller.toggleBoswachter(rij, kolom);
+				if (e.getX() < linkerGrensVenster
+						|| e.getX() > rechterGrensVenster
+						|| e.getY() < bovenGrensVenster
+						|| e.getY() > onderGrensVenster) {
 					controller.afbeelden();
-				} else if (SwingUtilities.isRightMouseButton(e)) {
-					controller.toggleVuur(rij, kolom);
-					controller.afbeelden();
+				}
+
+				else {
+
+					// Als blijkt dat er wel binnen het veld geklikt is, dan
+					// worden de rij en kolom berekend van het kavel waarop is
+					// geklikt.
+
+					int kolom = (int) ((e.getX() - linkerGrensVenster) / Afbeeldbaar.zijde);
+
+					int rij = (int) ((e.getY() - bovenGrensVenster) / Afbeeldbaar.zijde);
+
+					// vervolgens wordt gecontroleerd met welke muisknop er op
+					// deze kavel is geklikt en wordt afhankelijk hiervan
+					// toggleBoswachter of toggleVuur aangeroepen met de juiste
+					// rij en kolom
+					if (SwingUtilities.isLeftMouseButton(e)) {
+
+						controller.toggleBoswachter(rij, kolom);
+						controller.afbeelden();
+					} else if (SwingUtilities.isRightMouseButton(e)) {
+						controller.toggleVuur(rij, kolom);
+						controller.afbeelden();
+					}
 				}
 			}
 

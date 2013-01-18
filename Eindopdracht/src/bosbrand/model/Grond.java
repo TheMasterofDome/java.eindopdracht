@@ -21,6 +21,7 @@ public class Grond implements IBosbrandModel {
 		// kolommen van wereld.
 		kavels = new IKavel[lengte][breedte];
 		kavels_original = kavels;
+		
 
 		// We initialiseren het boswachter grid emt dezelfde grootte als kavels.
 		posBoswachters = new IBoswachter[lengte][breedte];
@@ -35,6 +36,8 @@ public class Grond implements IBosbrandModel {
 				kavels[rij][kolom] = haalKavelUitChar(wereld[rij].charAt(kolom));
 			}
 		}
+		
+		
 	}
 
 	/**
@@ -67,7 +70,6 @@ public class Grond implements IBosbrandModel {
 	 * hij de boom in brand en andersom. Als de kavel leeg is gebeurt er niets.
 	 */
 	public void toggleVuur(int rij, int kolom) {
-		System.out.println("roep vuur aan");
 		if (kavels[rij][kolom].voortBranden()) {
 			if (kavels[rij][kolom] instanceof AppelBoom) {
 				kavels[rij][kolom] = new AppelBoom(Boom.NIET_IN_BRAND);
