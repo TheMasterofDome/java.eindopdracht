@@ -150,14 +150,14 @@ public class View implements IView, ComponentListener {
 						.berekenAantalKavelsLengte();
 
 				double linkerGrensVenster = midden.getX()
-						- ((kavelsInBreedte / 2.0) * Afbeeldbaar.zijde);
+						- ((kavelsInBreedte / 2.0) * 50);
 
 				double bovenGrensVenster = midden.getY()
-						- ((kavelsInLengte / 2.0) * Afbeeldbaar.zijde);
+						- ((kavelsInLengte / 2.0) * 50);
 
-				int kolom = (int) ((e.getX() - linkerGrensVenster) / Afbeeldbaar.zijde);
+				int kolom = (int) ((e.getX() - linkerGrensVenster) / 50);
 
-				int rij = (int) ((e.getY() - bovenGrensVenster) / Afbeeldbaar.zijde);
+				int rij = (int) ((e.getY() - bovenGrensVenster) / 50);
 
 				if (SwingUtilities.isLeftMouseButton(e)) {
 

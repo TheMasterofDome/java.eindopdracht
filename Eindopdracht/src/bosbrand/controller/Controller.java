@@ -85,10 +85,11 @@ public class Controller implements IController {
 	}
 
 	/**
-	 * Maak van ieder kavel een afbeeeldbaar object en stop die objecten in een Array.
+	 * Maak van ieder kavel en boswachter een afbeeeldbaar object en stop die objecten in een Array.
 	 */
 	public void afbeelden() {
 		IKavel[][] kavels = grond.getKavels();
+		IBoswachter[][] boswachters = ((Grond) grond).getBoswachterPos();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
 		
 		//Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand staat of leeg is.
@@ -115,6 +116,23 @@ public class Controller implements IController {
 			}
 			y = y + af.getZijde();
 		}
+		
+		//We bepalen de positie van de boswachters op dezelfde manier als de kavels.
+		//We wilden dit eerst mbv de getBoswachters() methode doen, maar dit bleek na een boel rekenwerk
+		// en hoofdpijn onmogelijk, terwijl dit in 10 seconden vlekkeloos werkte.
+		y = (int) getStartpunt().getY();
+		for (int r=0;r<boswachters.length;r++) {
+			int x = (int) getStartpunt().getX();
+			for (int c=0;c<boswachters[r].length;c++) {
+				if (boswachters[r][c] instanceof Boswachter) {
+					af = new Afbeeldbaar(x+12 , y+12, 'P', 25);
+				}
+				afb.add(af);
+				x = x + 50;
+			}
+			y = y + 50;
+		}
+		
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
 		//view.afbeelden(afbeeldData);
 		view.afbeelden(afbeeldData);
@@ -126,16 +144,13 @@ public class Controller implements IController {
 	 * @return een Java Point met de coördinaten.
 	 */
 	public void setStartpunt(int newX, int newY) {
-		//Hij is zo gevoelig omdat hij steeds vanaf het midden rekent, ook als hij al verplaatst is.
-		//Op te lossen door het nieuwe midden te berekenen vanaf het nieuwe startpunt mbv het aantal kavels.
-		
 		//De afstand van het midden van kavels[][] tot de grens van grond.
 		double 	xOffsetKavel = (grond.getKavels()[0].length / 2.0) * af.getZijde();
 		double 	yOffsetKavel = (grond.getKavels().length / 2.0) * af.getZijde();
 				
 		//Het nieuwe startpunt
-		Double startX = midden.getX() - xOffsetKavel;
-		Double startY = midden.getY() - yOffsetKavel;
+		Double startX = midden.x - xOffsetKavel;
+		Double startY = midden.y - yOffsetKavel;
 		
 		//Het nieuwe startpunt met verplaatsing
 		startX = startX - newX;
