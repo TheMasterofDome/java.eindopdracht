@@ -3,7 +3,7 @@ package bosbrand.view;
 import java.awt.*;
 
 public class Afbeeldbaar implements IAfbeeldbaar {
-	private int zijde = 50;
+	public int zijde = 50;
 	private int x;
 	private int y;
 	private char color;
