@@ -132,6 +132,16 @@ public class View implements IView, ComponentListener {
 
 		};
 		btnSimulate.addActionListener(listenerSimulate);
+
+		/*
+		 * JButton btnStep = new JButton("Step"); pButtonArea.add(btnStep);
+		 * ActionListener listenerStep = new ActionListener() { public void
+		 * actionPerformed(ActionEvent event) { ((Controller)
+		 * controller).doen(); }
+		 * 
+		 * }; btnSimulate.addActionListener(listenerStep);
+		 */
+
 		// maak een panel om op te tekenen
 		dpTekenGebied = new TekenPanel();
 		content.add(dpTekenGebied, BorderLayout.CENTER);
@@ -143,14 +153,24 @@ public class View implements IView, ComponentListener {
 			// welke worden berekend adhv het coördinaat waarop geklikt wordt
 			public void mouseClicked(MouseEvent e) {
 
+				// het aantal kavels in de breedte en lengte hebben we nodig om
+				// te berekenen hoe lang de grond is vanaf het midden. Vanaf het
+				// midden, omdat de kavels vanuit het midden worden afgebeeld.
 				double kavelsInBreedte = ((Controller) controller)
 						.berekenAantalKavelsBreedte();
 
 				double kavelsInLengte = ((Controller) controller)
 						.berekenAantalKavelsLengte();
 
+				// aan de hand van het aantal kavels in lengte/breedte en de
+				// lengte en breedte van een kavel (beiden 50) kunnen de
+				// coördinaten van de linker-, rechter-, onder- en bovengrens
+				// worden berekend.
 				double linkerGrensVenster = midden.getX()
 						- ((kavelsInBreedte / 2.0) * 50);
+
+				double rechterGrensVenster = midden.getX()
+						+ ((kavelsInBreedte / 2.0) * Afbeeldbaar.zijde);
 
 				double bovenGrensVenster = midden.getY()
 						- ((kavelsInLengte / 2.0) * 50);
@@ -159,13 +179,18 @@ public class View implements IView, ComponentListener {
 
 				int rij = (int) ((e.getY() - bovenGrensVenster) / 50);
 
-				if (SwingUtilities.isLeftMouseButton(e)) {
+					// vervolgens wordt gecontroleerd met welke muisknop er op
+					// deze kavel is geklikt en wordt afhankelijk hiervan
+					// toggleBoswachter of toggleVuur aangeroepen met de juiste
+					// rij en kolom
+					if (SwingUtilities.isLeftMouseButton(e)) {
 
-					controller.toggleBoswachter(rij, kolom);
-					controller.afbeelden();
-				} else if (SwingUtilities.isRightMouseButton(e)) {
-					controller.toggleVuur(rij, kolom);
-					controller.afbeelden();
+						controller.toggleBoswachter(rij, kolom);
+						controller.afbeelden();
+					} else if (SwingUtilities.isRightMouseButton(e)) {
+						controller.toggleVuur(rij, kolom);
+						controller.afbeelden();
+					}
 				}
 			}
 

@@ -21,6 +21,7 @@ public class Grond implements IBosbrandModel {
 		// kolommen van wereld.
 		kavels = new IKavel[lengte][breedte];
 		kavels_original = kavels;
+		
 
 		// We initialiseren het boswachter grid emt dezelfde grootte als kavels.
 		posBoswachters = new IBoswachter[lengte][breedte];
@@ -35,6 +36,8 @@ public class Grond implements IBosbrandModel {
 				kavels[rij][kolom] = haalKavelUitChar(wereld[rij].charAt(kolom));
 			}
 		}
+		
+		
 	}
 
 	/**
