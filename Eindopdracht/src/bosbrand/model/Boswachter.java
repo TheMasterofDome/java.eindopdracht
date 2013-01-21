@@ -43,9 +43,16 @@ public class Boswachter implements IBoswachter {
 
 		findClosestTree();
 
+		// eerst wordt de boswachter weggehaald op de plek waar hij stond.
+		grond.toggleBoswachter(rij, kolom);
+		// vervolgens worden de nieuwe rij en kolom bepaald
 		rij = veranderRij();
 
 		kolom = veranderKolom();
+
+		// dan wordt de boswachter neergezet op de plek waar hij moet komen te
+		// staan.
+		grond.toggleBoswachter(rij, kolom);
 
 	}
 
