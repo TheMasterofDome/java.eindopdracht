@@ -8,6 +8,7 @@ TODO-LIJST
 - Bomen verschillende kleurtjes
 - Blusvliegtuig
 - Zoomen
+- Design decisions in commentaar plaatsen
 
 DEBUG-LIJST
 
