@@ -44,11 +44,11 @@ public class Controller implements IController {
 	/**
 	 * Laat het model weer vanaf het begin beginnen:
 	 * Kavels terug naar origineel, boswachters weg, update-counter weer naar 0.
-	 * Pauzeer de timer tijdens de reset om te voorkomen dat er ongelukken gebeuren als nog niet het hele veld gereset is
-	 * maar het veld wel weer geupdate wordt, bijvoorbeeld.
+	 * We stoppen de timer omdat ons dat het meest wenselijke lijkt als je op reset drukt.
 	 */
 	public void doeReset() {
 		//Kavels terug naar origineel en boswachters weg, en opnieuw afbeelden.
+		displayTimer.stop();
 		view.setMidden(new Point(((1024-102)/2), (768/2)));
 		grond.reset();
 		afbeelden();
@@ -143,7 +143,7 @@ public class Controller implements IController {
 	/**
 	 * Deze methode berekent op welk punt moet worden begonnen met afdrukken om de grond mooi in het midden te hebben.
 	 * In de praktijk werkt dit nog niet in verticale richting door een onbekende fout in een van de tekenmethodes (die niet van ons zijn).
-	 * @return een Java Point met de coördinaten.
+	 * Midden verandert natuurlijk als je de grond versleept.
 	 */
 	public void setStartpunt() {
 		Point midden = view.getMidden();
@@ -154,13 +154,6 @@ public class Controller implements IController {
 		//Het nieuwe startpunt
 		Double startX = midden.x - xOffsetKavel;
 		Double startY = midden.y - yOffsetKavel;
-		
-		/*//Het nieuwe startpunt met verplaatsing
-		startX = startX - newX;
-		startY = startY - newY;
-		
-		//Het nieuwe middelpunt berekenen na verplaatsing.
-		midden = new Point((int) (startX + xOffsetKavel), (int) (startY + yOffsetKavel));*/
 		
 		startpunt = new Point (startX.intValue(), startY.intValue());
 	}
