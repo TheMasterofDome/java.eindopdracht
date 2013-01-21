@@ -11,6 +11,8 @@ public class View implements IView, ComponentListener {
     private JFrame jfMainFrame;
     private TekenPanel dpTekenGebied;
     private IController controller;
+    private IAfbeeldbaar afbeelding;
+    private double zoom;
 
     /**
      * Constructor die het frame en de controls erop aanmaakt. Ook stelt hij het
@@ -20,6 +22,8 @@ public class View implements IView, ComponentListener {
      *            die deze view en het bijbehorende model bestuurt
      */
     public View(IController controller) {
+    	setZoom(1.0);
+    	afbeelding = new Afbeeldbaar(0,0,' ');
         this.controller = controller;
         midden = new Point((1024 - 102) / 2, (768 / 2));
 
@@ -68,7 +72,7 @@ public class View implements IView, ComponentListener {
         // Afbeeldbaar object.
         for (IAfbeeldbaar beelden : afTeBeeldenData) {
             dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(),
-                    beelden.getZijde(), beelden.getZijde(), beelden.getColor());
+                    (int)(beelden.getZijde() * zoom), (int) (beelden.getZijde() * zoom), beelden.getColor());
         }
 
         // beeld het tekenpanel opnieuw af
@@ -155,20 +159,20 @@ public class View implements IView, ComponentListener {
                         .berekenAantalKavelsLengte();
 
                 // aan de hand van het aantal kavels in lengte/breedte en de
-                // lengte en breedte van een kavel (beiden 50) kunnen de
+                // lengte en breedte van een kavel (beiden ) kunnen de
                 // coördinaten van de linker-, rechter-, onder- en bovengrens
                 // worden berekend.
                 double linkerGrensVenster = midden.getX()
-                        - ((kavelsInBreedte / 2.0) * 50);
+                        - ((kavelsInBreedte / 2.0) * afbeelding.getZijde());
 
                 double rechterGrensVenster = midden.getX()
-                        + ((kavelsInBreedte / 2.0) * 50);
+                        + ((kavelsInBreedte / 2.0) * afbeelding.getZijde());
 
                 double bovenGrensVenster = midden.getY()
-                        - ((kavelsInLengte / 2.0) * 50);
+                        - ((kavelsInLengte / 2.0) * afbeelding.getZijde());
 
                 double onderGrensVenster = midden.getY()
-                        + ((kavelsInLengte / 2.0) * 50);
+                        + ((kavelsInLengte / 2.0) * afbeelding.getZijde());
 
                 // aan de hand van deze coördinaten wordt getest of de muisklik
                 // wel binnen de getekende grond valt. Als dit niet het geval
@@ -187,8 +191,8 @@ public class View implements IView, ComponentListener {
                     // Als blijkt dat er wel binnen het veld geklikt is, dan
                     // worden de rij en kolom berekend van het kavel waarop is
                     // geklikt.
-					int kolom = (int) ((e.getX() - ((Controller) controller).getStartpunt().getX()) / 50);
-                	int rij = (int) ((e.getY() - ((Controller) controller).getStartpunt().getY()) / 50);
+					int kolom = (int) ((e.getX() - ((Controller) controller).getStartpunt().getX()) / afbeelding.getZijde());
+                	int rij = (int) ((e.getY() - ((Controller) controller).getStartpunt().getY()) / afbeelding.getZijde());
 
                     // vervolgens wordt gecontroleerd met welke muisknop er op
                     // deze kavel is geklikt en wordt afhankelijk hiervan
@@ -226,6 +230,16 @@ public class View implements IView, ComponentListener {
         };
 
         dpTekenGebied.addMouseMotionListener(muisMove);
+        
+        MouseWheelListener wheel = new MouseWheelListener() {
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				setZoom(zoom+0.1);
+				controller.afbeelden();
+				
+			}
+        };
+        
+        dpTekenGebied.addMouseWheelListener(wheel);
     }
 
     /**
@@ -245,16 +259,8 @@ public class View implements IView, ComponentListener {
         controller.afbeelden();
     }
 
-    /**
-     * zoom als een ratio ten opzichte van normaal (dus 1.0 is normaal, 2.0 is
-     * twee keer zo groot of twee keer zo klein, afhankelijk van de
-     * implementatie).
-     *
-     * @param zoomniveau
-     *            als ratio ten opzichte van normaal
-     */
-    public void setZoom(double zoom) {
-        // BONUS: voeg code toe om netjes te kunnen zoomen
+    public void setZoom(double z) {
+        zoom = z;
     }
 
     /**
@@ -265,8 +271,7 @@ public class View implements IView, ComponentListener {
      * @return zoomniveau als ratio ten opzichte van normaal
      */
     public double getZoom() {
-        // BONUS: voeg code toe om netjes te kunnen zoomen
-        return 0.0d;
+        return zoom;
     }
 
     /**

@@ -3,7 +3,7 @@ package bosbrand.view;
 import java.awt.*;
 
 public class Afbeeldbaar implements IAfbeeldbaar {
-	public int zijde = 50;
+	public int zijde;
 	private int x;
 	private int y;
 	private char color;
@@ -11,14 +11,9 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	// TODO middelpunt moet nog in midden.
 
 	public Afbeeldbaar(int x, int y, char kleur) {
-		this.zijde = 50;
-		color = kleur;
-		this.x = x;
-		this.y = y;
-	}
-
-	public Afbeeldbaar(int x, int y, char kleur, int zijde) {
-		this.zijde = 25;
+		if (kleur == 'P') {
+			zijde = 25;
+		} else zijde = 50;
 		color = kleur;
 		this.x = x;
 		this.y = y;

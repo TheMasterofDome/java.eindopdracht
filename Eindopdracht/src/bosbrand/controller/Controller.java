@@ -115,31 +115,24 @@ public class Controller implements IController {
 				if (kavels[r][c] instanceof AppelBoom) {
 					if (kavels[r][c].voortBranden()) {
 						af = new Afbeeldbaar(x, y, 'A');
-					} else if (kavels[r][c].voortBranden() == false) {
-
+					} else {
 						af = new Afbeeldbaar(x, y, 'a');
 					}
-
 				}
 
 				if (kavels[r][c] instanceof BraamStruik) {
 					if (kavels[r][c].voortBranden()) {
 						af = new Afbeeldbaar(x, y, 'B');
 					}
-
 					else {
-
 						af = new Afbeeldbaar(x, y, 'b');
-
 					}
-
 				}
 
 				if (kavels[r][c] instanceof Cypres) {
 					if (kavels[r][c].voortBranden()) {
 						af = new Afbeeldbaar(x, y, 'C');
 					}
-
 					else {
 						af = new Afbeeldbaar(x, y, 'c');
 					}
@@ -159,12 +152,12 @@ public class Controller implements IController {
 			int x = (int) getStartpunt().getX();
 			for (int c = 0; c < boswachters[r].length; c++) {
 				if (boswachters[r][c] instanceof Boswachter) {
-					af = new Afbeeldbaar(x + 12, y + 12, 'P', 25);
+					af = new Afbeeldbaar(x + (af.getZijde()/4), y + (af.getZijde()/4), 'P');
 				}
 				afb.add(af);
-				x = x + 50;
+				x = x + af.getZijde();
 			}
-			y = y + 50;
+			y = y + af.getZijde();
 		}
 
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
