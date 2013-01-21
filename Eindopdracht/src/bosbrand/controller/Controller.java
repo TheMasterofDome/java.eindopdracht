@@ -18,25 +18,27 @@ public class Controller implements IController {
 	private IAfbeeldbaar af;
 	private Point startpunt;
 	//private Point midden;
-	
+
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
-	 * @param wereld de string met de input, of de random grond.
-	 * De Timer staat in de constructor zodat we hem door de hele Controller kunnen starten/stoppen.
+	 * 
+	 * @param wereld
+	 *            de string met de input, of de random grond. De Timer staat in
+	 *            de constructor zodat we hem door de hele Controller kunnen
+	 *            starten/stoppen.
 	 */
 	public Controller(String[] wereld) {
 		timerRunning = false;
-		af = new Afbeeldbaar(0,0,' ');
+		af = new Afbeeldbaar(0, 0, ' ');
 		grond = new Grond();
 		grond.initialiseer(wereld);
-		listener = new ActionListener(){
-			public void actionPerformed(ActionEvent event){
+		listener = new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
 				doen();
 			}
 		};
 		displayTimer = new Timer(100, listener);
 		view = new View(this);
-		//midden = new Point((int) view.getMidden().getX(), (int) view.getMidden().getY());
 		setStartpunt();
 		startpunt = new Point(getStartpunt());
 	}
@@ -47,30 +49,32 @@ public class Controller implements IController {
 	 * We stoppen de timer omdat ons dat het meest wenselijke lijkt als je op reset drukt.
 	 */
 	public void doeReset() {
-		//Kavels terug naar origineel en boswachters weg, en opnieuw afbeelden.
+		// Kavels terug naar origineel en boswachters weg, en opnieuw afbeelden.
 		displayTimer.stop();
 		view.setMidden(new Point(((1024-102)/2), (768/2)));
 		grond.reset();
 		afbeelden();
 	}
-	
+
 	/**
-	 * Methode die uitvoert wat er moet gebeuren als de Timer een Action Event gooit.
+	 * Methode die uitvoert wat er moet gebeuren als de Timer een Action Event
+	 * gooit.
 	 */
 	public void doen() {
-		//De grond naar de volgende toestand updaten volgens dew regels van Opdracht 3.
+		// De grond naar de volgende toestand updaten volgens dew regels van
+		// Opdracht 3.
 		grond.update();
-		
-		//Alle boswachters hun ding laten doen
+
+		// Alle boswachters hun ding laten doen
 		IBoswachter[] boswachters = grond.getBoswachters();
-		for (IBoswachter bw: boswachters) {
+		for (IBoswachter bw : boswachters) {
 			bw.update();
 		}
-		
-		//De nieuwe grond afbeelden
+
+		// De nieuwe grond afbeelden
 		afbeelden();
 	}
-	
+
 	/**
 	 * Methode voor de 'Simuleer'-knop.
 	 */
@@ -78,115 +82,155 @@ public class Controller implements IController {
 		if (!timerRunning) {
 			displayTimer.start();
 			timerRunning = true;
-		}
-		else if (timerRunning) {
+		} else if (timerRunning) {
 			displayTimer.stop();
 			timerRunning = false;
 		}
 	}
 
 	/**
-	 * Maak van ieder kavel en boswachter een afbeeeldbaar object en stop die objecten in een Array.
+	 * Maak van ieder kavel en boswachter een afbeeeldbaar object en stop die
+	 * objecten in een Array.
 	 */
 	public void afbeelden() {
 		setStartpunt();
 		IKavel[][] kavels = grond.getKavels();
 		IBoswachter[][] boswachters = ((Grond) grond).getBoswachterPos();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
-		
-		//Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand staat of leeg is.
-		//De randgevallen skipt ie.
-		//Opties voor kleuren zijn Rood, Groen en B voor standaard.
-		//Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende coordinaten meegeven.
+
+		// Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand
+		// staat of leeg is.
+		// De randgevallen skipt ie.
+		// Opties voor kleuren zijn Rood, Groen en B voor standaard.
+		// Van linksboven naar rechtsonder de kavels omzetten en de bijbehorende
+		// coordinaten meegeven.
 		int y = (int) getStartpunt().getY();
-		for (int r=0;r<kavels.length;r++) {
+		for (int r = 0; r < kavels.length; r++) {
 			int x = (int) getStartpunt().getX();
-			for (int c=0;c<kavels[r].length;c++) {
+			for (int c = 0; c < kavels[r].length; c++) {
 				if (kavels[r][c] instanceof LeegKavel) {
-					af = new Afbeeldbaar(x , y, 'B');
+					af = new Afbeeldbaar(x, y, 'L');
 				}
-				else {
+
+				if (kavels[r][c] instanceof AppelBoom) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x , y, 'R');
+						af = new Afbeeldbaar(x, y, 'A');
+					} else if (kavels[r][c].voortBranden() == false) {
+
+						af = new Afbeeldbaar(x, y, 'a');
 					}
+
+				}
+
+				if (kavels[r][c] instanceof BraamStruik) {
+					if (kavels[r][c].voortBranden()) {
+						af = new Afbeeldbaar(x, y, 'B');
+					}
+
 					else {
-						af = new Afbeeldbaar(x , y, 'G');
+
+						af = new Afbeeldbaar(x, y, 'b');
+
+					}
+
+				}
+
+				if (kavels[r][c] instanceof Cypres) {
+					if (kavels[r][c].voortBranden()) {
+						af = new Afbeeldbaar(x, y, 'C');
+					}
+
+					else {
+						af = new Afbeeldbaar(x, y, 'c');
 					}
 				}
+
 				afb.add(af);
 				x = x + af.getZijde();
 			}
 			y = y + af.getZijde();
 		}
-		
+
 		//We bepalen de positie van de boswachters op dezelfde manier als de kavels.
 		//We wilden dit eerst mbv de getBoswachters() methode doen, maar dit bleek na een boel rekenwerk
 		// en hoofdpijn onmogelijk, terwijl dit in 10 seconden vlekkeloos werkte.		
 		y = (int) getStartpunt().getY();
-		for (int r=0;r<boswachters.length;r++) {
+		for (int r = 0; r < boswachters.length; r++) {
 			int x = (int) getStartpunt().getX();
-			for (int c=0;c<boswachters[r].length;c++) {
+			for (int c = 0; c < boswachters[r].length; c++) {
 				if (boswachters[r][c] instanceof Boswachter) {
-					af = new Afbeeldbaar(x+12 , y+12, 'P', 25);
+					af = new Afbeeldbaar(x + 12, y + 12, 'P', 25);
 				}
 				afb.add(af);
 				x = x + 50;
 			}
 			y = y + 50;
 		}
-		
+
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
-		//view.afbeelden(afbeeldData);
+		// view.afbeelden(afbeeldData);
 		view.afbeelden(afbeeldData);
 	}
-	
+
 	/**
-	 * Deze methode berekent op welk punt moet worden begonnen met afdrukken om de grond mooi in het midden te hebben.
-	 * In de praktijk werkt dit nog niet in verticale richting door een onbekende fout in een van de tekenmethodes (die niet van ons zijn).
+	 * Deze methode berekent op welk punt moet worden begonnen met afdrukken om
+	 * de grond mooi in het midden te hebben. In de praktijk werkt dit nog niet
+	 * in verticale richting door een onbekende fout in een van de tekenmethodes
+	 * (die niet van ons zijn).
+	 * 
 	 * Midden verandert natuurlijk als je de grond versleept.
 	 */
 	public void setStartpunt() {
 		Point midden = view.getMidden();
-		//De afstand van het midden van kavels[][] tot de grens van grond.
-		double 	xOffsetKavel = (grond.getKavels()[0].length / 2.0) * af.getZijde();
-		double 	yOffsetKavel = (grond.getKavels().length / 2.0) * af.getZijde();
-				
-		//Het nieuwe startpunt
+		// De afstand van het midden van kavels[][] tot de grens van grond.
+		double xOffsetKavel = (grond.getKavels()[0].length / 2.0)
+				* af.getZijde();
+		double yOffsetKavel = (grond.getKavels().length / 2.0) * af.getZijde();
+
+		// Het nieuwe startpunt
 		Double startX = midden.x - xOffsetKavel;
 		Double startY = midden.y - yOffsetKavel;
 		
 		startpunt = new Point (startX.intValue(), startY.intValue());
 	}
-	
+
 	public Point getStartpunt() {
 		return startpunt;
 	}
 
 	/**
-	 * Deze methode doet niets anders dan de toggleBoswachtermethode in Grond aanroepen.
-	 * @param rij de rij van het kavel, die hij meekrijgt uit View.
-	 * @param kolom de kolom van het kavel, die hij meekrijgt van View
+	 * Deze methode doet niets anders dan de toggleBoswachtermethode in Grond
+	 * aanroepen.
+	 * 
+	 * @param rij
+	 *            de rij van het kavel, die hij meekrijgt uit View.
+	 * @param kolom
+	 *            de kolom van het kavel, die hij meekrijgt van View
 	 */
 	public void toggleBoswachter(int rij, int kolom) {
 		grond.toggleBoswachter(rij, kolom);
 	}
 
 	/**
-	 * Deze methode doet niets anders dan de toggleVuurmethode in Grond aanroepen.
-	 * @param rij de rij van het kavel, die hij meekrijgt uit View.
-	 * @param kolom de kolom van het kavel, die hij meekrijgt van View
+	 * Deze methode doet niets anders dan de toggleVuurmethode in Grond
+	 * aanroepen.
+	 * 
+	 * @param rij
+	 *            de rij van het kavel, die hij meekrijgt uit View.
+	 * @param kolom
+	 *            de kolom van het kavel, die hij meekrijgt van View
 	 */
 	public void toggleVuur(int rij, int kolom) {
 		grond.toggleVuur(rij, kolom);
 	}
-	
-	public int berekenAantalKavelsBreedte(){
+
+	public int berekenAantalKavelsBreedte() {
 		int aantalKavels = grond.getKavels()[0].length;
 		return aantalKavels;
-		
+
 	}
-	
-	public int berekenAantalKavelsLengte(){
+
+	public int berekenAantalKavelsLengte() {
 		int aantalKavels = grond.getKavels().length;
 		return aantalKavels;
 	}
