@@ -97,6 +97,10 @@ public class Controller implements IController {
 		IKavel[][] kavels = grond.getKavels();
 		IBoswachter[][] boswachters = ((Grond) grond).getBoswachterPos();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
+		//Hij pakt de zijde van het vierkant nog niet
+		int zijde = (int) (af.getZijde() * view.getZoom());
+		af = new Afbeeldbaar(0,0,' ', zijde);
+		System.out.println(zijde);
 
 		// Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand
 		// staat of leeg is.
@@ -109,39 +113,38 @@ public class Controller implements IController {
 			int x = (int) getStartpunt().getX();
 			for (int c = 0; c < kavels[r].length; c++) {
 				if (kavels[r][c] instanceof LeegKavel) {
-					af = new Afbeeldbaar(x, y, 'L');
+					af = new Afbeeldbaar(x, y, 'L', zijde);
 				}
 
 				if (kavels[r][c] instanceof AppelBoom) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x, y, 'A');
+						af = new Afbeeldbaar(x, y, 'A', zijde);
 					} else {
-						af = new Afbeeldbaar(x, y, 'a');
+						af = new Afbeeldbaar(x, y, 'a', zijde);
 					}
 				}
 
 				if (kavels[r][c] instanceof BraamStruik) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x, y, 'B');
+						af = new Afbeeldbaar(x, y, 'B', zijde);
 					}
 					else {
-						af = new Afbeeldbaar(x, y, 'b');
+						af = new Afbeeldbaar(x, y, 'b', zijde);
 					}
 				}
 
 				if (kavels[r][c] instanceof Cypres) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x, y, 'C');
+						af = new Afbeeldbaar(x, y, 'C', zijde);
 					}
 					else {
-						af = new Afbeeldbaar(x, y, 'c');
+						af = new Afbeeldbaar(x, y, 'c', zijde);
 					}
 				}
-
 				afb.add(af);
-				x = x + af.getZijde();
+				x = x + zijde;
 			}
-			y = y + af.getZijde();
+			y = y + zijde;
 		}
 
 		//We bepalen de positie van de boswachters op dezelfde manier als de kavels.
@@ -152,12 +155,12 @@ public class Controller implements IController {
 			int x = (int) getStartpunt().getX();
 			for (int c = 0; c < boswachters[r].length; c++) {
 				if (boswachters[r][c] instanceof Boswachter) {
-					af = new Afbeeldbaar(x + (af.getZijde()/4), y + (af.getZijde()/4), 'P');
+					af = new Afbeeldbaar(x + (af.getZijde()/4), y + (af.getZijde()/4), 'P', zijde);
 				}
 				afb.add(af);
-				x = x + af.getZijde();
+				x = x + zijde;
 			}
-			y = y + af.getZijde();
+			y = y + zijde;
 		}
 
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);

@@ -22,7 +22,7 @@ public class View implements IView, ComponentListener {
      *            die deze view en het bijbehorende model bestuurt
      */
     public View(IController controller) {
-    	setZoom(1.0);
+    	zoom = 1.0;
     	afbeelding = new Afbeeldbaar(0,0,' ');
         this.controller = controller;
         midden = new Point((1024 - 102) / 2, (768 / 2));
@@ -71,8 +71,7 @@ public class View implements IView, ComponentListener {
         // Loop door de array en beeld elk kavel af met behulp van zijn
         // Afbeeldbaar object.
         for (IAfbeeldbaar beelden : afTeBeeldenData) {
-            dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(),
-                    (int)(beelden.getZijde() * zoom), (int) (beelden.getZijde() * zoom), beelden.getColor());
+            dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), afbeelding.getZijde(), afbeelding.getZijde(), beelden.getColor());
         }
 
         // beeld het tekenpanel opnieuw af
@@ -233,9 +232,8 @@ public class View implements IView, ComponentListener {
         
         MouseWheelListener wheel = new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				setZoom(zoom+0.1);
+				setZoom(0.1);
 				controller.afbeelden();
-				
 			}
         };
         
@@ -260,7 +258,7 @@ public class View implements IView, ComponentListener {
     }
 
     public void setZoom(double z) {
-        zoom = z;
+    	zoom = zoom + z;
     }
 
     /**
