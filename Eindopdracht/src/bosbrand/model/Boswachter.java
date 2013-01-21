@@ -98,7 +98,7 @@ public class Boswachter implements IBoswachter {
 					// als het ware een vierkant worden getekend op het kavel,
 					// met als buitenste hoeken de boom en de boswachter. Een
 					// lijn tussen de boom en de boswachter vormt de diagonaal
-					// van deze driehoek.
+					// van dit vierkant.
 
 					int verschilRij = Math.abs(rij - boomRij);
 					int verschilKolom = Math.abs(kolom - boomKolom);
@@ -111,6 +111,7 @@ public class Boswachter implements IBoswachter {
 					if (aantalStappen < maxAantalStappen) {
 						targetRij = boomRij;
 						targetKolom = boomKolom;
+						maxAantalStappen = aantalStappen;
 					}
 
 				}
