@@ -7,15 +7,16 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	private int x;
 	private int y;
 	private char color;
-	
+
 	// TODO middelpunt moet nog in midden.
-	
+
 	public Afbeeldbaar(int x, int y, char kleur) {
 		this.zijde = 50;
 		color = kleur;
 		this.x = x;
 		this.y = y;
 	}
+
 	public Afbeeldbaar(int x, int y, char kleur, int zijde) {
 		this.zijde = 25;
 		color = kleur;
@@ -24,23 +25,58 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 	}
 
 	/**
-	 * Mehtode om de kleur te bepalen aan de hand van de meegegeven letterwaarde.
+	 * Methode om de kleur te bepalen aan de hand van de meegegeven
+	 * letterwaarde. Verschillende soorten bomen hebben verschillende kleuren.
+	 * Een boom met een felle kleur staat wel in brand, een boom met een donkere
+	 * kleur niet.
 	 */
 	public Color getColor() {
 		Color kleurtje;
 		switch (color) {
-			case 'R': 	kleurtje = Color.red; 
-						break;
-			case 'G': 	kleurtje = Color.green; 
-						break;
-			case 'P':	kleurtje = Color.cyan;
-						break;
-			default: 	kleurtje = Color.yellow; 
-						break;
+		case 'A':
+			// felrood
+
+			kleurtje = new Color(255, 0, 0);
+
+			break;
+		case 'a':
+			// donkerrood
+			
+			kleurtje = new Color(205, 0, 0);
+			break;
+		case 'B':
+			// felpaars
+			kleurtje = new Color(219, 45, 123);
+
+			break;
+		case 'b':
+			// donkerpaars
+			kleurtje = new Color(165, 29, 90);
+
+			break;
+		case 'C':
+			// felgroen
+			kleurtje = new Color(127, 255, 0);
+
+			break;
+		case 'c':
+			// donkergroen
+			kleurtje = new Color(69, 139, 0);
+			break;
+		case 'P':
+			kleurtje = Color.cyan;
+			break;
+		case 'L':
+			// bruin
+			kleurtje = new Color(139, 69, 19);
+		default:
+			// bruin
+			kleurtje = new Color(139, 69, 19);
+			break;
 		}
 		return kleurtje;
 	}
-	
+
 	public int getZijde() {
 		return zijde;
 	}
