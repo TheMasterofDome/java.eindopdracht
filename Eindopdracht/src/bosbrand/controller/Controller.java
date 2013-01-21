@@ -17,7 +17,7 @@ public class Controller implements IController {
 	private boolean timerRunning;
 	private IAfbeeldbaar af;
 	private Point startpunt;
-	private Point midden;
+	//private Point midden;
 
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
@@ -39,9 +39,7 @@ public class Controller implements IController {
 		};
 		displayTimer = new Timer(100, listener);
 		view = new View(this);
-		midden = new Point((int) view.getMidden().getX(), (int) view
-				.getMidden().getY());
-		setStartpunt(0, 0);
+		setStartpunt();
 		startpunt = new Point(getStartpunt());
 	}
 
@@ -54,6 +52,7 @@ public class Controller implements IController {
 	 */
 	public void doeReset() {
 		// Kavels terug naar origineel en boswachters weg, en opnieuw afbeelden.
+		view.setMidden(new Point(((1024-102)/2), (768/2)));
 		grond.reset();
 		afbeelden();
 	}
@@ -95,6 +94,7 @@ public class Controller implements IController {
 	 * objecten in een Array.
 	 */
 	public void afbeelden() {
+		setStartpunt();
 		IKavel[][] kavels = grond.getKavels();
 		IBoswachter[][] boswachters = ((Grond) grond).getBoswachterPos();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
@@ -152,12 +152,9 @@ public class Controller implements IController {
 			y = y + af.getZijde();
 		}
 
-		// We bepalen de positie van de boswachters op dezelfde manier als de
-		// kavels.
-		// We wilden dit eerst mbv de getBoswachters() methode doen, maar dit
-		// bleek na een boel rekenwerk
-		// en hoofdpijn onmogelijk, terwijl dit in 10 seconden vlekkeloos
-		// werkte.
+		//We bepalen de positie van de boswachters op dezelfde manier als de kavels.
+		//We wilden dit eerst mbv de getBoswachters() methode doen, maar dit bleek na een boel rekenwerk
+		// en hoofdpijn onmogelijk, terwijl dit in 10 seconden vlekkeloos werkte.		
 		y = (int) getStartpunt().getY();
 		for (int r = 0; r < boswachters.length; r++) {
 			int x = (int) getStartpunt().getX();
@@ -184,7 +181,8 @@ public class Controller implements IController {
 	 * 
 	 * @return een Java Point met de coördinaten.
 	 */
-	public void setStartpunt(int newX, int newY) {
+	public void setStartpunt() {
+		Point midden = view.getMidden();
 		// De afstand van het midden van kavels[][] tot de grens van grond.
 		double xOffsetKavel = (grond.getKavels()[0].length / 2.0)
 				* af.getZijde();
@@ -194,18 +192,10 @@ public class Controller implements IController {
 		Double startX = midden.x - xOffsetKavel;
 		Double startY = midden.y - yOffsetKavel;
 
-		// Het nieuwe startpunt met verplaatsing
-		startX = startX - newX;
-		startY = startY - newY;
-
-		// Het nieuwe middelpunt berekenen na verplaatsing.
-		midden = new Point((int) (startX + xOffsetKavel),
-				(int) (startY + yOffsetKavel));
-
 		startpunt = new Point(startX.intValue(), startY.intValue());
 	}
 
-	private Point getStartpunt() {
+	public Point getStartpunt() {
 		return startpunt;
 	}
 
