@@ -26,10 +26,16 @@ public class Cypres extends Boom implements IBoom {
 	}
 	
 	public void doof(){
+		if(this.inBrand){
+			inBrand = false;
+		}
 		
 	}
 	
 	public void steekAan(){
+		if (this.inBrand == false){
+			inBrand = true;
+		}
 		
 	}
 }

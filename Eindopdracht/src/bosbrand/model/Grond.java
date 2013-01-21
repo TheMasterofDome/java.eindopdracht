@@ -47,7 +47,9 @@ public class Grond implements IBosbrandModel {
 	public IBoswachter[] getBoswachters() {
 		// ArrayList gebruiken voor de variabele grootte.
 		ArrayList<IBoswachter> al = new ArrayList<IBoswachter>();
+		System.out.println("lengte boswachterpositie is " + posBoswachters.length);
 		for (int r = 0; r < posBoswachters.length; r++) {
+			
 			for (int c = 0; c < posBoswachters[r].length; c++) {
 				if (posBoswachters[r][c] instanceof IBoswachter) {
 					al.add(posBoswachters[r][c]);
@@ -61,6 +63,7 @@ public class Grond implements IBosbrandModel {
 	}
 	
 	public IBoswachter[][] getBoswachterPos() {
+		System.out.println("positie boswachter is " + posBoswachters);
 		return posBoswachters;
 	}
 

@@ -62,12 +62,14 @@ public class Controller implements IController {
 	 * gooit.
 	 */
 	public void doen() {
-		// De grond naar de volgende toestand updaten volgens dew regels van
+		// De grond naar de volgende toestand updaten volgens de regels van
 		// Opdracht 3.
 		grond.update();
 
 		// Alle boswachters hun ding laten doen
+
 		IBoswachter[] boswachters = grond.getBoswachters();
+		System.out.println("grond.getBoswachters wordt aangeroepen");
 		for (IBoswachter bw : boswachters) {
 			bw.update();
 		}
