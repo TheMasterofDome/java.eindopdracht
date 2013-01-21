@@ -1,13 +1,12 @@
 package bosbrand.view;
 
 import bosbrand.controller.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class View implements IView, ComponentListener {
-    private boolean moving;
-    private Integer[] start_end_coords;
     Point midden;
     private JFrame jfMainFrame;
     private TekenPanel dpTekenGebied;
@@ -21,12 +20,8 @@ public class View implements IView, ComponentListener {
      *            die deze view en het bijbehorende model bestuurt
      */
     public View(IController controller) {
-        moving = false;
         this.controller = controller;
-        midden = new Point();
-        start_end_coords = new Integer[4];
-
-        setMidden(midden);
+        midden = new Point((1024 - 102) / 2, (768 / 2));
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -54,10 +49,8 @@ public class View implements IView, ComponentListener {
      * @param een
      *            java.awt.Point.
      */
-    public void setMidden(Point midden) {
-        int width = (1024 - 102) / 2;
-        int height = 768 / 2;
-        midden.setLocation(width, height);
+    public void setMidden(Point nieuwMid) {
+    	midden = new Point((int)nieuwMid.getX(), (int)nieuwMid.getY());
     }
 
     /**
@@ -152,7 +145,6 @@ public class View implements IView, ComponentListener {
             // methode aan. De methodes worden aangeroepen op rij en kolom,
             // welke worden berekend adhv het coördinaat waarop geklikt wordt
             public void mouseClicked(MouseEvent e) {
-
                 // het aantal kavels in de breedte en lengte hebben we nodig om
                 // te berekenen hoe lang de grond is vanaf het midden. Vanaf het
                 // midden, omdat de kavels vanuit het midden worden afgebeeld.
@@ -175,7 +167,7 @@ public class View implements IView, ComponentListener {
                 double bovenGrensVenster = midden.getY()
                         - ((kavelsInLengte / 2.0) * 50);
 
-                double onderGrensVenster = midden.getX()
+                double onderGrensVenster = midden.getY()
                         + ((kavelsInLengte / 2.0) * 50);
 
                 // aan de hand van deze coördinaten wordt getest of de muisklik
@@ -195,10 +187,8 @@ public class View implements IView, ComponentListener {
                     // Als blijkt dat er wel binnen het veld geklikt is, dan
                     // worden de rij en kolom berekend van het kavel waarop is
                     // geklikt.
-
-                    int kolom = (int) ((e.getX() - linkerGrensVenster) / 50);
-
-                    int rij = (int) ((e.getY() - bovenGrensVenster) / 50);
+					int kolom = (int) ((e.getX() - ((Controller) controller).getStartpunt().getX()) / 50);
+                	int rij = (int) ((e.getY() - ((Controller) controller).getStartpunt().getY()) / 50);
 
                     // vervolgens wordt gecontroleerd met welke muisknop er op
                     // deze kavel is geklikt en wordt afhankelijk hiervan
@@ -215,30 +205,10 @@ public class View implements IView, ComponentListener {
                 }
             }
 
-            // Deze submethode stelt het coordinaat in waar de muis is als je
-            // bgint met slepen (klikken).
-            public void mousePressed(MouseEvent e) {
-                start_end_coords[2] = e.getX();
-                start_end_coords[3] = e.getY();
-            }
-
-            // Deze submethode stelt het coordinaat in waar de muis is als je
-            // ophoudt met slepen.
-            // Verplaats daarna direct het beeld.
-            public void mouseReleased(MouseEvent e) {
-                if (moving) {
-                    start_end_coords[0] = e.getX();
-                    start_end_coords[1] = e.getY();
-                    berekenVerplaatsing(start_end_coords);
-                    moving = false;
-                }
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseExited(MouseEvent e) {
-            }
+            public void mousePressed(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {}
         };
 
         dpTekenGebied.addMouseListener(muis);
@@ -247,7 +217,8 @@ public class View implements IView, ComponentListener {
         // slepen is.
         MouseMotionListener muisMove = new MouseMotionListener() {
             public void mouseDragged(MouseEvent e) {
-                moving = true;
+                setMidden(new Point(e.getX(), e.getY()));
+                controller.afbeelden();
             }
 
             public void mouseMoved(MouseEvent e) {
@@ -263,23 +234,6 @@ public class View implements IView, ComponentListener {
     private void showUI() {
         jfMainFrame.setSize(1024, 768);
         jfMainFrame.setVisible(true);
-    }
-
-    /**
-     * De methode die het veld op de nieuwe positie afbeeldt. Dit door de
-     * verplaatsing te berekenen, dit aan het startpunt te geven en opnieuw af
-     * te beelden.
-     *
-     * @param i
-     *            een array van integers die de coordinaten voorstellen startX,
-     *            startY, eindX, eindY.
-     */
-    private void berekenVerplaatsing(Integer[] i) {
-        int xVerschil = start_end_coords[2] - start_end_coords[0];
-        int yVerschil = start_end_coords[3] - start_end_coords[1];
-
-        ((Controller) controller).setStartpunt(xVerschil, yVerschil);
-        controller.afbeelden();
     }
 
     /**
