@@ -11,7 +11,6 @@ public class View implements IView, ComponentListener {
     private JFrame jfMainFrame;
     private TekenPanel dpTekenGebied;
     private IController controller;
-    private IAfbeeldbaar afbeelding;
     private double zoom;
 
     /**
@@ -23,7 +22,6 @@ public class View implements IView, ComponentListener {
      */
     public View(IController controller) {
     	zoom = 1.0;
-    	afbeelding = new Afbeeldbaar(0,0,' ');
         this.controller = controller;
         midden = new Point((1024 - 102) / 2, (768 / 2));
 
@@ -71,7 +69,7 @@ public class View implements IView, ComponentListener {
         // Loop door de array en beeld elk kavel af met behulp van zijn
         // Afbeeldbaar object.
         for (IAfbeeldbaar beelden : afTeBeeldenData) {
-            dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), afbeelding.getZijde(), afbeelding.getZijde(), beelden.getColor());
+            dpTekenGebied.tekenRechthoek(beelden.getX(), beelden.getY(), beelden.getZijde(), beelden.getZijde(), beelden.getColor());
         }
 
         // beeld het tekenpanel opnieuw af
@@ -162,16 +160,16 @@ public class View implements IView, ComponentListener {
                 // coördinaten van de linker-, rechter-, onder- en bovengrens
                 // worden berekend.
                 double linkerGrensVenster = midden.getX()
-                        - ((kavelsInBreedte / 2.0) * afbeelding.getZijde());
+                        - ((kavelsInBreedte / 2.0) * ((Controller) controller).getZijdeGrootte());
 
                 double rechterGrensVenster = midden.getX()
-                        + ((kavelsInBreedte / 2.0) * afbeelding.getZijde());
+                        + ((kavelsInBreedte / 2.0) * ((Controller) controller).getZijdeGrootte());
 
                 double bovenGrensVenster = midden.getY()
-                        - ((kavelsInLengte / 2.0) * afbeelding.getZijde());
+                        - ((kavelsInLengte / 2.0) * ((Controller) controller).getZijdeGrootte());
 
                 double onderGrensVenster = midden.getY()
-                        + ((kavelsInLengte / 2.0) * afbeelding.getZijde());
+                        + ((kavelsInLengte / 2.0) * ((Controller) controller).getZijdeGrootte());
 
                 // aan de hand van deze coördinaten wordt getest of de muisklik
                 // wel binnen de getekende grond valt. Als dit niet het geval
@@ -190,8 +188,8 @@ public class View implements IView, ComponentListener {
                     // Als blijkt dat er wel binnen het veld geklikt is, dan
                     // worden de rij en kolom berekend van het kavel waarop is
                     // geklikt.
-					int kolom = (int) ((e.getX() - ((Controller) controller).getStartpunt().getX()) / afbeelding.getZijde());
-                	int rij = (int) ((e.getY() - ((Controller) controller).getStartpunt().getY()) / afbeelding.getZijde());
+					int kolom = (int) ((e.getX() - ((Controller) controller).getStartpunt().getX()) / ((Controller) controller).getZijdeGrootte());
+                	int rij = (int) ((e.getY() - ((Controller) controller).getStartpunt().getY()) / ((Controller) controller).getZijdeGrootte());
 
                     // vervolgens wordt gecontroleerd met welke muisknop er op
                     // deze kavel is geklikt en wordt afhankelijk hiervan
@@ -259,6 +257,7 @@ public class View implements IView, ComponentListener {
 
     public void setZoom(double z) {
     	zoom = zoom + z;
+    	((Controller) controller).setZijdeGrootte((int) (((Controller) controller).getZijdeGrootte() * zoom));
     }
 
     /**

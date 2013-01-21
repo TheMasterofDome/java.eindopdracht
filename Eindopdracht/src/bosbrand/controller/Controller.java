@@ -17,7 +17,7 @@ public class Controller implements IController {
 	private boolean timerRunning;
 	private IAfbeeldbaar af;
 	private Point startpunt;
-	//private Point midden;
+	private int zijdeGrootte;
 
 	/**
 	 * De controller maakt ene grond object aan en initialiseerd de wereld.
@@ -28,8 +28,9 @@ public class Controller implements IController {
 	 *            starten/stoppen.
 	 */
 	public Controller(String[] wereld) {
+		setZijdeGrootte(50);
 		timerRunning = false;
-		af = new Afbeeldbaar(0, 0, ' ');
+		af = new Afbeeldbaar(0, 0, ' ', 50);
 		grond = new Grond();
 		grond.initialiseer(wereld);
 		listener = new ActionListener() {
@@ -56,6 +57,14 @@ public class Controller implements IController {
 		afbeelden();
 	}
 
+	public int getZijdeGrootte() {
+		return zijdeGrootte;
+	}
+	
+	public void setZijdeGrootte(int x) {
+		zijdeGrootte = x;
+	}
+	
 	/**
 	 * Methode die uitvoert wat er moet gebeuren als de Timer een Action Event
 	 * gooit.
@@ -99,10 +108,8 @@ public class Controller implements IController {
 		IKavel[][] kavels = grond.getKavels();
 		IBoswachter[][] boswachters = ((Grond) grond).getBoswachterPos();
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
-		//Hij pakt de zijde van het vierkant nog niet
-		int zijde = (int) (af.getZijde() * view.getZoom());
-		af = new Afbeeldbaar(0,0,' ', zijde);
-		System.out.println(zijde);
+		
+		zijdeGrootte = getZijdeGrootte();
 
 		// Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand
 		// staat of leeg is.
@@ -115,38 +122,38 @@ public class Controller implements IController {
 			int x = (int) getStartpunt().getX();
 			for (int c = 0; c < kavels[r].length; c++) {
 				if (kavels[r][c] instanceof LeegKavel) {
-					af = new Afbeeldbaar(x, y, 'L', zijde);
+					af = new Afbeeldbaar(x, y, 'L', zijdeGrootte);
 				}
 
 				if (kavels[r][c] instanceof AppelBoom) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x, y, 'A', zijde);
+						af = new Afbeeldbaar(x, y, 'A', zijdeGrootte);
 					} else {
-						af = new Afbeeldbaar(x, y, 'a', zijde);
+						af = new Afbeeldbaar(x, y, 'a', zijdeGrootte);
 					}
 				}
 
 				if (kavels[r][c] instanceof BraamStruik) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x, y, 'B', zijde);
+						af = new Afbeeldbaar(x, y, 'B', zijdeGrootte);
 					}
 					else {
-						af = new Afbeeldbaar(x, y, 'b', zijde);
+						af = new Afbeeldbaar(x, y, 'b', zijdeGrootte);
 					}
 				}
 
 				if (kavels[r][c] instanceof Cypres) {
 					if (kavels[r][c].voortBranden()) {
-						af = new Afbeeldbaar(x, y, 'C', zijde);
+						af = new Afbeeldbaar(x, y, 'C', zijdeGrootte);
 					}
 					else {
-						af = new Afbeeldbaar(x, y, 'c', zijde);
+						af = new Afbeeldbaar(x, y, 'c', zijdeGrootte);
 					}
 				}
 				afb.add(af);
-				x = x + zijde;
+				x = x + af.getZijde();
 			}
-			y = y + zijde;
+			y = y + af.getZijde();
 		}
 
 		//We bepalen de positie van de boswachters op dezelfde manier als de kavels.
@@ -157,12 +164,12 @@ public class Controller implements IController {
 			int x = (int) getStartpunt().getX();
 			for (int c = 0; c < boswachters[r].length; c++) {
 				if (boswachters[r][c] instanceof Boswachter) {
-					af = new Afbeeldbaar(x + (af.getZijde()/4), y + (af.getZijde()/4), 'P', zijde);
+					af = new Afbeeldbaar(x + (af.getZijde()/4), y + (af.getZijde()/4), 'P', zijdeGrootte/2);
 				}
 				afb.add(af);
-				x = x + zijde;
+				x = x + af.getZijde();
 			}
-			y = y + zijde;
+			y = y + af.getZijde();
 		}
 
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);

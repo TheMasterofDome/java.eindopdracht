@@ -10,18 +10,6 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 
 	public Afbeeldbaar(int x, int y, char kleur, int z) {
 		zijde = z;
-		if (kleur == 'P') {
-			zijde = zijde/2;
-		}
-		color = kleur;
-		this.x = x;
-		this.y = y;
-	}
-	public Afbeeldbaar(int x, int y, char kleur) {
-		zijde = 50;
-		if (kleur == 'P') {
-			zijde = zijde/2;
-		}
 		color = kleur;
 		this.x = x;
 		this.y = y;
