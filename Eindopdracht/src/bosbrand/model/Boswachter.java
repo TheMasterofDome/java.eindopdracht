@@ -33,42 +33,26 @@ public class Boswachter implements IBoswachter {
 		return kolom;
 	}
 
-	// In deze methode dooft de boswachter alle brandende bomen om hem heen. Als
-	// er geen brandende bomen om de boswachter heen staan, dan zet de
-	// boswachter 1 stap in de richting van de brandende boom die in het minst
-	// aantal stappen te bereiken is.
+	// In deze methode dooft de boswachter alle brandende bomen om hem heen.
+	// Vervolgens wordt de brandende boom gezocht die in het minst aantal
+	// stappen te bereiken is. Daarna zet de boswachter 1 stap in de richting
+	// van deze brandende boom.
 	public void update() {
 
-		// het aantal gebluste bomen wordt opgevraagd mbv de methode
-		// aantalGeblusteBomen()
-		int aantalGeblusteBomen = aantalGeblusteBomen();
+		doofOmgeving();
 
-		// als de boswachter niet geblust heeft (en het aantal gebluste bomen
-		// dus nul is), zet de boswachter 1 stap in de richting van de
-		// dichtstbijzijnde in brand staande boom
+		findClosestTree();
 
-		if (aantalGeblusteBomen == 0) {
+		rij = veranderRij();
 
-			// deze dichtstbijzijnde brandende boom moet eerst worden gezocht
-			// mbv de methode findClosestTree().
-			findClosestTree();
-
-			rij = veranderRij();
-			System.out.println("de nieuwe rij voor de boswachter is " + rij);
-			kolom = veranderKolom();
-			System.out
-					.println("de nieuwe kolom voor de boswachter is " + kolom);
-
-		}
+		kolom = veranderKolom();
 
 	}
 
-	// in deze methode worden bomen in de omgeving geblust.
-	// tevens wordt het aantal gebluste bomen bijgehouden.
-	private int aantalGeblusteBomen() {
+	// In deze methode worden alle bomen in de omgeving van de boswachter
+	// geblust.
+	private void doofOmgeving() {
 
-		// het aantal gebluste bomen wordt eerst op nul gezet.
-		int aantalGeblusteBomen = 0;
 		// maak een nieuw IKavel[][] object aan, met de waarde van de omgeving
 		// van de kavel waar de boswachter op staat.
 
@@ -78,26 +62,25 @@ public class Boswachter implements IBoswachter {
 			for (int j = 0; j < omgevingBoswachter[i].length; j++) {
 				// als er een brandende boom gevonden wordt, laat de boom dan
 				// uitdoven dmv het aanroepen van de methode doof();
-				// houd ondertussen ook het aantal brandende bomen bij.
 
 				if (omgevingBoswachter[i][j].voortBranden()) {
 					omgevingBoswachter[i][j].doof();
-					aantalGeblusteBomen++;
 
 				}
 
 			}
 		}
 
-		return aantalGeblusteBomen;
 	}
 
+	// Deze methode gaat op zoek naar de brandende boom die in het minst aantal
+	// stappen te bereiken is.
 	private void findClosestTree() {
 
 		int boomRij;
 		int boomKolom;
 		// bepaal de maximumafstand die een boswachter tot een brandende
-		// boom kan hebben
+		// boom kan hebben.
 
 		int maxAantalStappen = berekenAantalStappen(grond.getKavels().length,
 				grond.getKavels()[0].length);
