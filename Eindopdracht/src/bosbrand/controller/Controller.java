@@ -110,6 +110,7 @@ public class Controller implements IController {
 		ArrayList<IAfbeeldbaar> afb = new ArrayList<IAfbeeldbaar>();
 		
 		zijdeGrootte = getZijdeGrootte();
+		IAfbeeldbaar af2 = new Afbeeldbaar(0,0,' ',0);
 
 		// Haal de coordinaten uit het kavel en de kleur. Dus of ie in brand
 		// staat of leeg is.
@@ -150,30 +151,19 @@ public class Controller implements IController {
 						af = new Afbeeldbaar(x, y, 'c', zijdeGrootte);
 					}
 				}
-				afb.add(af);
-				x = x + af.getZijde();
-			}
-			y = y + af.getZijde();
-		}
-
-		//We bepalen de positie van de boswachters op dezelfde manier als de kavels.
-		//We wilden dit eerst mbv de getBoswachters() methode doen, maar dit bleek na een boel rekenwerk
-		// en hoofdpijn onmogelijk, terwijl dit in 10 seconden vlekkeloos werkte.		
-		y = (int) getStartpunt().getY();
-		for (int r = 0; r < boswachters.length; r++) {
-			int x = (int) getStartpunt().getX();
-			for (int c = 0; c < boswachters[r].length; c++) {
+				
 				if (boswachters[r][c] instanceof Boswachter) {
-					af = new Afbeeldbaar(x + (af.getZijde()/4), y + (af.getZijde()/4), 'P', zijdeGrootte/2);
+					af2 = new Afbeeldbaar(x+(zijdeGrootte/4), y+(zijdeGrootte/4), 'P', (zijdeGrootte/2));
 				}
+				
 				afb.add(af);
+				afb.add(af2);
 				x = x + af.getZijde();
 			}
 			y = y + af.getZijde();
 		}
 
 		IAfbeeldbaar[] afbeeldData = afb.toArray(new Afbeeldbaar[afb.size()]);
-		// view.afbeelden(afbeeldData);
 		view.afbeelden(afbeeldData);
 	}
 

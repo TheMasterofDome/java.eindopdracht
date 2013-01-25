@@ -12,7 +12,7 @@ public class View implements IView, ComponentListener {
     private TekenPanel dpTekenGebied;
     private IController controller;
     private double zoom;
-
+    
     /**
      * Constructor die het frame en de controls erop aanmaakt. Ook stelt hij het
      * midden in en initialiseert hij de rest van de variabelen.
@@ -79,7 +79,7 @@ public class View implements IView, ComponentListener {
     /**
      * Maakt het frame aan en voegt alle controls er aan toe
      */
-    private void createUI() {
+    private void createUI() {    	
         // maak een nieuw frame aan met de naam "Bosbrand"
         jfMainFrame = new JFrame("Bosbrand");
         // voeg deze klasse zelf toe als componentlistener, wordt alleen
@@ -196,7 +196,6 @@ public class View implements IView, ComponentListener {
                     // toggleBoswachter of toggleVuur aangeroepen met de juiste
                     // rij en kolom
                     if (SwingUtilities.isLeftMouseButton(e)) {
-
                         controller.toggleBoswachter(rij, kolom);
                         controller.afbeelden();
                     } else if (SwingUtilities.isRightMouseButton(e)) {
@@ -218,8 +217,10 @@ public class View implements IView, ComponentListener {
         // slepen is.
         MouseMotionListener muisMove = new MouseMotionListener() {
             public void mouseDragged(MouseEvent e) {
-                setMidden(new Point(e.getX(), e.getY()));
-                controller.afbeelden();
+            	//Hij doet zo raar omdat hij steeds op de positie van de cursor afbeeld na slepen, 
+            	//Wat alleen werkt als de cursor in het midden staat
+            	setMidden(new Point(e.getX(), e.getY()));
+            	controller.afbeelden();
             }
 
             public void mouseMoved(MouseEvent e) {
@@ -237,7 +238,7 @@ public class View implements IView, ComponentListener {
         
         dpTekenGebied.addMouseWheelListener(wheel);
     }
-
+    
     /**
      * Geeft het frame een initiële grootte en maakt het zichtbaar.
      */

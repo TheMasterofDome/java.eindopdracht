@@ -24,7 +24,7 @@ public class Grond implements IBosbrandModel {
 		
 
 		// We initialiseren het boswachter grid emt dezelfde grootte als kavels.
-		posBoswachters = new IBoswachter[lengte][breedte];
+		posBoswachters = new Boswachter[lengte][breedte];
 
 		// we lopen door alle rijen en kolommen heen
 		for (int rij = 0; rij < kavels.length; rij++) {
@@ -47,7 +47,6 @@ public class Grond implements IBosbrandModel {
 	public IBoswachter[] getBoswachters() {
 		// ArrayList gebruiken voor de variabele grootte.
 		ArrayList<IBoswachter> al = new ArrayList<IBoswachter>();
-		System.out.println("lengte boswachterpositie is " + posBoswachters.length);
 		for (int r = 0; r < posBoswachters.length; r++) {
 			
 			for (int c = 0; c < posBoswachters[r].length; c++) {
@@ -63,7 +62,6 @@ public class Grond implements IBosbrandModel {
 	}
 	
 	public IBoswachter[][] getBoswachterPos() {
-		System.out.println("positie boswachter is " + posBoswachters);
 		return posBoswachters;
 	}
 
