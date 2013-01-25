@@ -101,7 +101,7 @@ public class Grond implements IBosbrandModel {
 		if (posBoswachters[rij][kolom] instanceof Boswachter) {
 			posBoswachters[rij][kolom] = null;
 		} else
-			posBoswachters[rij][kolom] = new Boswachter(this, rij, kolom, 0);
+			posBoswachters[rij][kolom] = new Boswachter(this, rij, kolom, 0, false);
 	}
 
 	/**

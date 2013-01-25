@@ -11,13 +11,17 @@ public class Boswachter implements IBoswachter {
 	int aantalBrandendeBomen;
 	double pZetStap = 0.50;
 	int aantalGegetenStruiken;
+	boolean misselijk;
+	int overgeven = 0;
 
-	Boswachter(IBosbrandModel grond, int rij, int kolom, int aantalGegetenStruiken) {
+	Boswachter(IBosbrandModel grond, int rij, int kolom,
+			int aantalGegetenStruiken, boolean misselijk) {
 		this.rij = rij;
 		this.kolom = kolom;
 		this.grond = grond;
 		kavels = grond.getKavels();
 		this.aantalGegetenStruiken = aantalGegetenStruiken;
+		this.misselijk = misselijk;
 	}
 
 	/**
@@ -44,58 +48,84 @@ public class Boswachter implements IBoswachter {
 	// van deze brandende boom.
 	public void update() {
 
-		doofOmgeving();
-
-		findClosestTree();
-
-		// kijk of de kavel waar de boswachter op staat een
-		// bramenstruik bevat. Als dit zo is, dan eet de boswachter deze
-		// bramen op, en wordt het kavel een leeg kavel. Van de eerste 5
-		// bramenstruiken krijgt hij meer energie en wordt hij sneller,
-		// daarna wordt hij alleen maar langzamer door zijn dikke buik.
-
-		if (kavels[rij][kolom] instanceof BraamStruik) {
+		if (pZetStap <= 0) {
 			
-			grond.getKavels()[rij][kolom] = new LeegKavel();
-			aantalGegetenStruiken++;
-			
-			if (aantalGegetenStruiken <= 5){
-				pZetStap += 0.02;
-			}
-			
-			else if (aantalGegetenStruiken > 5){
-				pZetStap -=0.02;
-			}
-			
-
+			misselijk = true;
+			System.out.println("*KOTS*");
 		}
 
-		// eerst wordt gecontroleerd of er überhaupt wel brandende bomen op de
-		// grond staan. Als dit het geval is worden de nieuwe rij en kolom
-		// bepaald. Als dit niet het geval is veranderen rij en kolom niet en
-		// blijft de boswachter dus staan waar hij stond.
+		if (misselijk) {
+			overgeven++;
+			if (overgeven >= 50) {
+				misselijk = false;
+				pZetStap = 0.50;
+			}
+			
+		}
 
-		if (aantalBrandendeBomen != 0) {
+		// als de boswachter niet misselijk is, dooft hij alles uit zijn
+		// omgeving en looopt naar de dichtstbijzijnde brandende boom
+		if (misselijk == false) {
 
-			// daarna wordt gecontroleerd of de boswachter de stap wel kan
-			// zetten. Het is een moeilijk begaanbaar bos, dus dit lukt niet
-			// altijd.
-			if (Math.random() < pZetStap) {
-				// eerst wordt de boswachter weggehaald op de plek waar hij
-				// stond
-				grond.toggleBoswachter(rij, kolom);
-				// vervolgens worden de nieuwe rij en kolom bepaald
-				rij = veranderRij();
+			doofOmgeving();
 
-				kolom = veranderKolom();
+			findClosestTree();
 
-				// dan wordt de boswachter neergezet op de plek waar hij moet
-				// komen te staan.
-				
-				((Grond) grond).getBoswachterPos()[rij][kolom] = new Boswachter(grond, rij, kolom, aantalGegetenStruiken);
-				
+			// kijk of de kavel waar de boswachter op staat een
+			// bramenstruik bevat. Als dit zo is, dan eet de boswachter deze
+			// bramen op, en wordt het kavel een leeg kavel. Van de eerste 5
+			// bramenstruiken krijgt hij meer energie en wordt hij sneller,
+			// daarna wordt hij alleen maar langzamer door zijn dikke buik.
+			// Op een gegeven moment is hij te misselijk om te lopen dus blijft
+			// hij even stil staan om te kotsen.
+
+		
+			if (grond.getKavels()[rij][kolom] instanceof BraamStruik) {
+	
+				grond.getKavels()[rij][kolom] = new LeegKavel();
+				aantalGegetenStruiken++;
+
+				if (aantalGegetenStruiken <= 5) {
+					pZetStap += 0.1;
+				}
+
+				else if (aantalGegetenStruiken > 5) {
+					pZetStap -= 0.2;
+				}
+
 			}
 
+			// eerst wordt gecontroleerd of er überhaupt wel brandende bomen op
+			// de
+			// grond staan. Als dit het geval is worden de nieuwe rij en kolom
+			// bepaald. Als dit niet het geval is veranderen rij en kolom niet
+			// en
+			// blijft de boswachter dus staan waar hij stond.
+
+			if (aantalBrandendeBomen != 0) {
+
+				// daarna wordt gecontroleerd of de boswachter de stap wel kan
+				// zetten. Het is een moeilijk begaanbaar bos, dus dit lukt niet
+				// altijd.
+				if (Math.random() < pZetStap) {
+					// eerst wordt de boswachter weggehaald op de plek waar hij
+					// stond
+					grond.toggleBoswachter(rij, kolom);
+					// vervolgens worden de nieuwe rij en kolom bepaald
+					rij = veranderRij();
+
+					kolom = veranderKolom();
+
+					// dan wordt de boswachter neergezet op de plek waar hij
+					// moet
+					// komen te staan.
+
+					((Grond) grond).getBoswachterPos()[rij][kolom] = new Boswachter(
+							grond, rij, kolom, aantalGegetenStruiken, false);
+
+				}
+
+			}
 		}
 
 	}
