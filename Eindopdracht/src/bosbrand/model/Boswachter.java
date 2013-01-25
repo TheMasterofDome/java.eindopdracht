@@ -9,11 +9,13 @@ public class Boswachter implements IBoswachter {
 	int targetRij;
 	int targetKolom;
 	int aantalBrandendeBomen;
+	double pZetStap = 0.50;
 
 	Boswachter(IBosbrandModel grond, int rij, int kolom) {
 		this.rij = rij;
 		this.kolom = kolom;
 		this.grond = grond;
+		kavels = grond.getKavels();
 	}
 
 	/**
@@ -44,22 +46,46 @@ public class Boswachter implements IBoswachter {
 
 		findClosestTree();
 
+		// kijk of de kavel waar de boswachter op staat een
+		// bramenstruik bevat. Als dit zo is, dan eet de boswachter deze
+		// bramen op, en wordt het kavel een leeg kavel. Van de eerste 5
+		// bramenstruiken krijgt hij meer energie en wordt hij sneller,
+		// daarna wordt hij alleen maar langzamer door zijn dikke buik.
+
+		System.out.println(kavels[rij][kolom].getClass());
+		System.out.println(kavels[rij][kolom] instanceof BraamStruik);
+		if (kavels[rij][kolom] instanceof BraamStruik) {
+			
+			grond.getKavels()[rij][kolom] = new LeegKavel();
+			pZetStap += 0.02;
+
+		}
+
 		// eerst wordt gecontroleerd of er überhaupt wel brandende bomen op de
 		// grond staan. Als dit het geval is worden de nieuwe rij en kolom
 		// bepaald. Als dit niet het geval is veranderen rij en kolom niet en
 		// blijft de boswachter dus staan waar hij stond.
 
 		if (aantalBrandendeBomen != 0) {
-			// eerst wordt de boswachter weggehaald op de plek waar hij stond
-			grond.toggleBoswachter(rij, kolom);
-			// vervolgens worden de nieuwe rij en kolom bepaald
-			rij = veranderRij();
 
-			kolom = veranderKolom();
+			// daarna wordt gecontroleerd of de boswachter de stap wel kan
+			// zetten. Het is een moeilijk begaanbaar bos, dus dit lukt niet
+			// altijd.
+			if (Math.random() < pZetStap) {
+				// eerst wordt de boswachter weggehaald op de plek waar hij
+				// stond
+				grond.toggleBoswachter(rij, kolom);
+				// vervolgens worden de nieuwe rij en kolom bepaald
+				rij = veranderRij();
 
-			// dan wordt de boswachter neergezet op de plek waar hij moet komen
-			// te staan.
-			grond.toggleBoswachter(rij, kolom);
+				kolom = veranderKolom();
+
+				// dan wordt de boswachter neergezet op de plek waar hij moet
+				// komen
+				// te staan.
+				grond.toggleBoswachter(rij, kolom);
+			}
+
 		}
 
 	}

@@ -247,7 +247,7 @@ public class View implements IView, ComponentListener {
 		// maak een MouseWheelListener aan om ervoor te zorgen dat er kan worden
 		// in- en uitgezoomd mbv de scrolwiel. Voor het zoomen wordt gebruik
 		// gemaakt van de methode setZoom. Na het zoomen wordt de nieuwe grond
-		// afgebeeld.
+		// afgebeeld. We kiezen ervoor om vanuit het midden in te zoomen.
 		MouseWheelListener wheel = new MouseWheelListener() {
 
 			public void mouseWheelMoved(MouseWheelEvent e) {
