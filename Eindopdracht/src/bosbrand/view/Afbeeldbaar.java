@@ -55,6 +55,7 @@ public class Afbeeldbaar implements IAfbeeldbaar {
 			kleurtje = new Color(69, 139, 0);
 			break;
 		case 'P':
+			// turqois
 			kleurtje = Color.cyan;
 			break;
 		case 'L':

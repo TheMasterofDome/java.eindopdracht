@@ -47,19 +47,25 @@ public class Boswachter implements IBoswachter {
 	// stappen te bereiken is. Daarna zet de boswachter 1 stap in de richting
 	// van deze brandende boom.
 	public void update() {
+
+		// de boswachter kan misselijk worden van het eten van braamstruiken.
+		// Als hij misselijk is, gaat hij kotsen en blust hij voor 5 seconden
+		// niet.
 		if (pZetStap <= 0) {
-			
+
 			misselijk = true;
 			System.out.println("*KOTS*");
 		}
 
+		// zodra de boswachter 5 seconden heeft gekotst, is hij niet meer
+		// misselijk en gaat hij weer door met het blussen van bomen
 		if (misselijk) {
 			overgeven++;
 			if (overgeven >= 50) {
 				misselijk = false;
 				pZetStap = 0.50;
 			}
-			
+
 		}
 
 		// als de boswachter niet misselijk is, dooft hij alles uit zijn
@@ -78,16 +84,14 @@ public class Boswachter implements IBoswachter {
 			// Op een gegeven moment is hij te misselijk om te lopen dus blijft
 			// hij even stil staan om te kotsen.
 
-		
 			if (grond.getKavels()[rij][kolom] instanceof BraamStruik) {
-	
+
 				grond.getKavels()[rij][kolom] = new LeegKavel();
 				aantalGegetenStruiken++;
 
 				if (aantalGegetenStruiken <= 5) {
 					pZetStap += 0.1;
-				}
-				else if (aantalGegetenStruiken > 5) {
+				} else if (aantalGegetenStruiken > 5) {
 					pZetStap -= 0.2;
 				}
 
@@ -116,7 +120,7 @@ public class Boswachter implements IBoswachter {
 					// dan wordt de boswachter neergezet op de plek waar hij
 					// moet
 					// komen te staan.
-			
+
 					((Grond) grond).getBoswachterPos()[rij][kolom] = new Boswachter(
 							grond, rij, kolom, aantalGegetenStruiken, false);
 
