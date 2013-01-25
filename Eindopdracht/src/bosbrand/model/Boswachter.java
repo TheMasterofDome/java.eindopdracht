@@ -8,6 +8,7 @@ public class Boswachter implements IBoswachter {
 	IKavel[][] kavels;
 	int targetRij;
 	int targetKolom;
+	int aantalBrandendeBomen;
 
 	Boswachter(IBosbrandModel grond, int rij, int kolom) {
 		this.rij = rij;
@@ -43,16 +44,23 @@ public class Boswachter implements IBoswachter {
 
 		findClosestTree();
 
-		// eerst wordt de boswachter weggehaald op de plek waar hij stond.
-		grond.toggleBoswachter(rij, kolom);
-		// vervolgens worden de nieuwe rij en kolom bepaald
-		rij = veranderRij();
+		// eerst wordt gecontroleerd of er überhaupt wel brandende bomen op de
+		// grond staan. Als dit het geval is worden de nieuwe rij en kolom
+		// bepaald. Als dit niet het geval is veranderen rij en kolom niet en
+		// blijft de boswachter dus staan waar hij stond.
 
-		kolom = veranderKolom();
+		if (aantalBrandendeBomen != 0) {
+			// eerst wordt de boswachter weggehaald op de plek waar hij stond
+			grond.toggleBoswachter(rij, kolom);
+			// vervolgens worden de nieuwe rij en kolom bepaald
+			rij = veranderRij();
 
-		// dan wordt de boswachter neergezet op de plek waar hij moet komen te
-		// staan.
-		grond.toggleBoswachter(rij, kolom);
+			kolom = veranderKolom();
+
+			// dan wordt de boswachter neergezet op de plek waar hij moet komen
+			// te staan.
+			grond.toggleBoswachter(rij, kolom);
+		}
 
 	}
 
@@ -67,7 +75,8 @@ public class Boswachter implements IBoswachter {
 		// loop over deze omgeving, op zoek naar brandende bomen
 		for (int i = 0; i < omgevingBoswachter.length; i++) {
 			for (int j = 0; j < omgevingBoswachter[i].length; j++) {
-				// als er een brandende boom gevonden wordt, laat de boom dan
+				// voor elke boom in de omgeving wordt gekeken of deze in brand
+				// staat. Zo ja, laat de boom dan
 				// uitdoven dmv het aanroepen van de methode doof();
 
 				if (omgevingBoswachter[i][j].voortBranden()) {
@@ -93,13 +102,16 @@ public class Boswachter implements IBoswachter {
 				grond.getKavels()[0].length);
 
 		// roep de 2D-array representatie van grond op, en stop deze in de
-		// variabele kavelsBoswachter.
+		// variabele kavelsBoswachter, van het type IKavel.
 
 		IKavel[][] kavelsBoswachter = grond.getKavels();
 
 		for (boomRij = 0; boomRij < kavelsBoswachter.length; boomRij++) {
 			for (boomKolom = 0; boomKolom < kavelsBoswachter[boomRij].length; boomKolom++) {
+				// controleer of de betreffende boom in brand staat en tel 1 op
+				// bij het aantal brandende bomen
 				if (kavelsBoswachter[boomRij][boomKolom].voortBranden()) {
+					aantalBrandendeBomen++;
 					// bereken het aantal stappen dat een boswachter
 					// verwijderd is van de brandende boom. Hiertoe moet eerst
 					// als het ware een vierkant worden getekend op het kavel,
@@ -109,6 +121,9 @@ public class Boswachter implements IBoswachter {
 
 					int verschilRij = Math.abs(rij - boomRij);
 					int verschilKolom = Math.abs(kolom - boomKolom);
+					// het aantal stappen dat een boswachter verwijderd is van
+					// de brandende boom wordt berekend door
+					// berekenAantalStappen(int lengte, int breedte).
 					int aantalStappen = berekenAantalStappen(verschilRij,
 							verschilKolom);
 
