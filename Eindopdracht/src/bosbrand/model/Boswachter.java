@@ -10,12 +10,14 @@ public class Boswachter implements IBoswachter {
 	int targetKolom;
 	int aantalBrandendeBomen;
 	double pZetStap = 0.50;
+	int aantalGegetenStruiken;
 
-	Boswachter(IBosbrandModel grond, int rij, int kolom) {
+	Boswachter(IBosbrandModel grond, int rij, int kolom, int aantalGegetenStruiken) {
 		this.rij = rij;
 		this.kolom = kolom;
 		this.grond = grond;
 		kavels = grond.getKavels();
+		this.aantalGegetenStruiken = aantalGegetenStruiken;
 	}
 
 	/**
@@ -52,12 +54,19 @@ public class Boswachter implements IBoswachter {
 		// bramenstruiken krijgt hij meer energie en wordt hij sneller,
 		// daarna wordt hij alleen maar langzamer door zijn dikke buik.
 
-		System.out.println(kavels[rij][kolom].getClass());
-		System.out.println(kavels[rij][kolom] instanceof BraamStruik);
 		if (kavels[rij][kolom] instanceof BraamStruik) {
 			
 			grond.getKavels()[rij][kolom] = new LeegKavel();
-			pZetStap += 0.02;
+			aantalGegetenStruiken++;
+			
+			if (aantalGegetenStruiken <= 5){
+				pZetStap += 0.02;
+			}
+			
+			else if (aantalGegetenStruiken > 5){
+				pZetStap -=0.02;
+			}
+			
 
 		}
 
@@ -81,9 +90,10 @@ public class Boswachter implements IBoswachter {
 				kolom = veranderKolom();
 
 				// dan wordt de boswachter neergezet op de plek waar hij moet
-				// komen
-				// te staan.
-				grond.toggleBoswachter(rij, kolom);
+				// komen te staan.
+				
+				((Grond) grond).getBoswachterPos()[rij][kolom] = new Boswachter(grond, rij, kolom, aantalGegetenStruiken);
+				
 			}
 
 		}
