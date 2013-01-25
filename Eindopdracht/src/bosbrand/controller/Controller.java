@@ -30,7 +30,7 @@ public class Controller implements IController {
 	public Controller(String[] wereld) {
 		setZijdeGrootte(50);
 		timerRunning = false;
-		af = new Afbeeldbaar(0, 0, ' ', 50);
+		af = new Afbeeldbaar(0, 0, ' ', 30);
 		grond = new Grond();
 		grond.initialiseer(wereld);
 		listener = new ActionListener() {

@@ -39,29 +39,25 @@ public class Boswachter implements IBoswachter {
 	// stappen te bereiken is. Daarna zet de boswachter 1 stap in de richting
 	// van deze brandende boom.
 	public void update() {
-
 		doofOmgeving();
 
 		findClosestTree();
-
 		// eerst wordt gecontroleerd of er überhaupt wel brandende bomen op de
 		// grond staan. Als dit het geval is worden de nieuwe rij en kolom
 		// bepaald. Als dit niet het geval is veranderen rij en kolom niet en
 		// blijft de boswachter dus staan waar hij stond.
-
 		if (aantalBrandendeBomen != 0) {
 			// eerst wordt de boswachter weggehaald op de plek waar hij stond
 			grond.toggleBoswachter(rij, kolom);
+		
 			// vervolgens worden de nieuwe rij en kolom bepaald
 			rij = veranderRij();
-
 			kolom = veranderKolom();
-
+		
 			// dan wordt de boswachter neergezet op de plek waar hij moet komen
 			// te staan.
 			grond.toggleBoswachter(rij, kolom);
 		}
-
 	}
 
 	// In deze methode worden alle bomen in de omgeving van de boswachter

@@ -1,6 +1,7 @@
 package bosbrand.model;
 
 public interface IBoswachter {
+	
 	/**
 	 * de rij waarop deze boswachter staat
 	 * @return de rij waarop deze boswachter staat
