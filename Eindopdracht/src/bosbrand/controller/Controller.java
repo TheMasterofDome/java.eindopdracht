@@ -75,9 +75,7 @@ public class Controller implements IController {
 		grond.update();
 
 		// Alle boswachters hun ding laten doen
-
 		IBoswachter[] boswachters = grond.getBoswachters();
-		System.out.println("grond.getBoswachters wordt aangeroepen");
 		for (IBoswachter bw : boswachters) {
 			bw.update();
 		}
@@ -152,8 +150,10 @@ public class Controller implements IController {
 					}
 				}
 				
-				if (boswachters[r][c] instanceof Boswachter) {
-					af2 = new Afbeeldbaar(x+(zijdeGrootte/4), y+(zijdeGrootte/4), 'P', (zijdeGrootte/2));
+				if (boswachters.length > 0) {
+					if (boswachters[r][c] instanceof Boswachter) {
+						af2 = new Afbeeldbaar(x+(zijdeGrootte/4), y+(zijdeGrootte/4), 'P', (zijdeGrootte/2));
+					}
 				}
 				
 				afb.add(af);

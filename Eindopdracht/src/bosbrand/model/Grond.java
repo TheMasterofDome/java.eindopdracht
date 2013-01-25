@@ -109,7 +109,7 @@ public class Grond implements IBosbrandModel {
 	 */
 	public void reset() {
 		kavels = kavels_original;
-		posBoswachters = new Boswachter[0][0];
+		posBoswachters = new Boswachter[kavels.length][kavels[0].length];
 	}
 
 	// haalKavelUitChar maakt een kavel van een char
