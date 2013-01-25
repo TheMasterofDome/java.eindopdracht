@@ -47,7 +47,6 @@ public class Boswachter implements IBoswachter {
 	// stappen te bereiken is. Daarna zet de boswachter 1 stap in de richting
 	// van deze brandende boom.
 	public void update() {
-
 		if (pZetStap <= 0) {
 			
 			misselijk = true;
@@ -88,7 +87,6 @@ public class Boswachter implements IBoswachter {
 				if (aantalGegetenStruiken <= 5) {
 					pZetStap += 0.1;
 				}
-
 				else if (aantalGegetenStruiken > 5) {
 					pZetStap -= 0.2;
 				}
@@ -115,11 +113,10 @@ public class Boswachter implements IBoswachter {
 					rij = veranderRij();
 
 					kolom = veranderKolom();
-
 					// dan wordt de boswachter neergezet op de plek waar hij
 					// moet
 					// komen te staan.
-
+			
 					((Grond) grond).getBoswachterPos()[rij][kolom] = new Boswachter(
 							grond, rij, kolom, aantalGegetenStruiken, false);
 
@@ -127,7 +124,6 @@ public class Boswachter implements IBoswachter {
 
 			}
 		}
-
 	}
 
 	// In deze methode worden alle bomen in de omgeving van de boswachter

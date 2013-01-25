@@ -1,3 +1,9 @@
+// BONUS: Je kunt inzoomen met het muiswiel. N.b.: hij pakt niet altijd de richting van het scrollwiel, dus soms moet je wat extra klooien.
+// BONUS: Boswachter AI: De boswachters gaan op de brand af die ze het meest efficient kunnen blussen.
+// bovendien is het bramentijd: als de boswachter niets te doen heeft en op een bramenkavel staat eet hij de brmaen op. Hierdoor wordt hij 
+// eerst sneller (energie), maar als hij meer eet wordt hij langzamer. Als hij teveel eet wordt hij misselijk en moet hij overgeven, 
+// en moet vervolgens even bijkomen. Daarna blust hij weer op z'n normale tempo.
+
 import java.util.Random;
 
 import bosbrand.controller.*;
