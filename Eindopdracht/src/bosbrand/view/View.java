@@ -231,7 +231,20 @@ public class View implements IView, ComponentListener {
         
         MouseWheelListener wheel = new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				setZoom(0.1);
+				int richting = e.getWheelRotation();
+				// als richting kleiner is dan nul, betekent dat er 'van de
+				// gebruiker af' wordt gescrolld. Dan moet er dus ingezoomd
+				// worden.
+				if (richting < 0) {
+					setZoom(0.1);
+				}
+
+				// als richting groter is dan nul, wordt er 'naar de gebruiker
+				// toe' gezoomd, en dus moet er worden uitgezoomd.
+				else if (richting > 0) {
+					setZoom(-0.1);
+				}
+
 				controller.afbeelden();
 			}
         };
